@@ -5,62 +5,42 @@ package de.marw.fifteenknots.engine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
+import de.marw.fifteenknots.model.BasicCruise;
 import de.marw.fifteenknots.model.Boat;
-import de.marw.fifteenknots.model.ICruise;
 import de.marw.fifteenknots.model.IPolyLine;
 import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 
-class Cruise implements ICruise
+/**
+ * A cruise of a boat with statictic data about the boat's speed and track
+ * points {@link #getPolyLines() condensed by speed}. Each of the track points
+ * in the list is guaranteed to hold information about
+ * {@link TrackEvent#getSpeed() speed}, additionally to the basic
+ * {@link TrackEvent#getDate() date} and {@link TrackEvent#getPosition()
+ * position} information.
+ * 
+ * @author Martin Weber
+ */
+public class SpeedCruise extends BasicCruise
 {
 
-  private final List<TrackEvent> track;
-
   private final List<IPolyLine> polylines= new ArrayList<IPolyLine>();
-
-  private final Boat boat;
 
   private float speedMin;
 
   private float speedMax;
 
   /**
-   * @param boat
-   * @param track
+   * Constructs a cruise object with the specified boat and track points.
    */
-  public Cruise( Boat boat, Vector<TrackEvent> track)
+  public SpeedCruise( Boat boat, List<TrackEvent> track)
   {
-    if (track == null) {
-      throw new NullPointerException( "track");
-    }
-    this.track= track;
-    if (boat == null) {
-      throw new NullPointerException( "boat");
-    }
-    this.boat= boat;
-
+    super( boat, track);
   }
 
-  /*-
-   * @see de.marw.fifteenknots.model.ICruise#getBoat()
-   */
-  public Boat getBoat()
-  {
-    return boat;
-  }
-
-  /*-
-   * @see de.marw.fifteenknots.engine.ICruise#getTrackpoints()
-   */
-  public List<TrackEvent> getTrackpoints()
-  {
-    return track;
-  }
-
-  /*-
-   * @see de.marw.fifteenknots.engine.ICruise#getPolyLines()
+  /**
+   * Gets all lines made of consecutive track points with similiar speed.
    */
   public List<IPolyLine> getPolyLines()
   {
@@ -68,7 +48,7 @@ class Cruise implements ICruise
   }
 
   /**
-   * Gets the maximum speed that reached on the cruise.
+   * Gets the maximum speed that the boat reached on the cruise.
    */
   public float getSpeedMax()
   {
@@ -79,7 +59,7 @@ class Cruise implements ICruise
    * Sets the maximum speed that the boat reached on the cruise.
    * 
    * @param speedMax
-   *        the maximum speed that reached on the cruise.
+   *        the maximum speed that the boat reached on the cruise.
    */
   public void setSpeedMax( float speedMax)
   {
