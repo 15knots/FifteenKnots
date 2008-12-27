@@ -1,14 +1,11 @@
 // $Header$
 // Copyright © 2008 Martin Weber
 
-package de.marw.fifteenknots.engine;
+package de.marw.fifteenknots.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.marw.fifteenknots.model.BasicCruise;
-import de.marw.fifteenknots.model.Boat;
-import de.marw.fifteenknots.model.IPolyLine;
 import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 
