@@ -52,7 +52,7 @@
     </StyleMap>
     <#-- styles for speed to color encoding -->
     <#list race.speedEncoding.ranges as range>
-    <Style id="speed_${range_index}">
+    <Style id="speed_${range_index?c}">
     <#assign color = toABGRhex(range.color.RGB)>
       <LineStyle>
         <color>${color}</color>
@@ -91,13 +91,13 @@
 </#if>
       <#list race.cruises as cruise>
       <Folder>
-        <name><#if cruise.boat.name??>${cruise.boat.name}<#else>Boat ${cruise.boat.index}</#if></name>
+        <name><#if cruise.boat.name??>${cruise.boat.name}<#else>Boat #${cruise.boat.index}</#if></name>
         <Folder>
           <name>Trackpoints</name>
           <#list cruise.trackpoints as point>
           
           <Placemark>
-            <name>${point_index} <#if point.speed??>${point.speed} kts</#if></name>
+            <name>${point_index}<#if point.speed??>[${point.speed} kts]</#if></name>
             <Snippet maxLines="2"></Snippet>
             <description></description>
             <LookAt>
@@ -121,7 +121,7 @@
           <#list cruise.polyLines as line>
         <Placemark>
           <name>Speed ${line.colorIndex}</name>
-          <styleUrl>#speed_${line.colorIndex}</styleUrl>
+          <styleUrl>#speed_${line.colorIndex?c}</styleUrl>
           <LineString>
             <tessellate>1</tessellate>
             <coordinates>
