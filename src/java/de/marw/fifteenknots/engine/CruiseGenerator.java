@@ -3,188 +3,101 @@
 
 package de.marw.fifteenknots.engine;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Collection;
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.Callable;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
-import de.marw.fifteenknots.main.BoatOptions;
 import de.marw.fifteenknots.model.Boat;
-import de.marw.fifteenknots.model.ICruise;
-import de.marw.fifteenknots.nmeareader.ITrackListener;
-import de.marw.fifteenknots.nmeareader.NmeaParser;
+import de.marw.fifteenknots.model.Cruise;
 import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 
 /**
- * Reads all files specified in the passed in {@code BoatOptions} and returns a
- * {@link ICruise} object from the {@link #call()} method.
- * 
+ * Reads all files for a {@code Boat}, extracts the the {@link TrackEvent track
+ * points} and returns the {@link Cruise} object from the {@link #call()}
+ * method.
+ *
  * @author Martin Weber
  */
-class CruiseGenerator implements Callable<Cruise>
-{
-  private BoatOptions options;
+public class CruiseGenerator implements Callable<Cruise> {
+
+  private final Boat boat;
+
+  private TrackGenerator trackGenerator;
+
+  private RaceModelFactory modelFactory;
 
   /**
-   * @param options
+   * Constructs a new object with the specified boat and zero files to read in.
+   * No model factory will be set.
+   *
+   * @param boat
+   *        the boat for which the cruise will be generated.
+   * @param modelFactory
+   *        the model factory used to create race model objects.
+   * @see #setModelFactory(RaceModelFactory)
+   * @see #addFileName(String)
    */
-  public CruiseGenerator( BoatOptions options)
-  {
-    this.options= options;
+  public CruiseGenerator( Boat boat, RaceModelFactory modelFactory) {
+    if (boat == null) {
+      throw new NullPointerException( "boat");
+    }
+    this.boat= boat;
+    this.trackGenerator= new TrackGenerator();
   }
 
   /**
-   * Reads files and gathers track events.
-   * 
+   * Gets the factory for objects of the race model.
+   *
+   * @return the current model factory or {@code null}, if none has been set.
+   */
+  public RaceModelFactory getModelFactory() {
+    return this.modelFactory;
+  }
+
+  /**
+   * Sets the model factory used to create race model objects.
+   */
+  public void setModelFactory( RaceModelFactory modelFactory) {
+    this.modelFactory= modelFactory;
+  }
+
+  /**
+   * Adds all specified input file names to be read.
+   *
+   * @see CruiseGenerator#addFileName(String)
+   */
+  public void addFileNames( Collection<String> fileNames) {
+    trackGenerator.addFileNames( fileNames);
+  }
+
+  /**
+   * Adds the specified input file name to be read.
+   *
+   * @see CruiseGenerator#addFileNames(Collection)
+   */
+  public void addFileName( String fileName) {
+    trackGenerator.addFileName( fileName);
+  }
+
+  /**
+   * Reads all input files and gathers track events.
+   *
+   * @return all track events, sorted by time stamp.
    * @throws FileNotFoundException
    *         if the specified file cannot be found
    * @throws IOException
    *         If an I/O error occurs
-   * @return all track events, sorted by time stamp.
+   * @throws IllegalStateException
+   *         if no {@link #setModelFactory(RaceModelFactory) model factory} has
+   *         been set.
    */
-  public Cruise call() throws FileNotFoundException, IOException
-  {
-    Vector<TrackEvent> trackBuffer= new Vector<TrackEvent>( 60 * 60, 5 * 60);
-    TrackBufferAppender bufferAppender= new TrackBufferAppender( trackBuffer);
-
-    final List<String> fileNames= options.getFileNames();
-    final int fileCnt= fileNames.size();
-    ArrayList<Callable<Object>> workers=
-      new ArrayList<Callable<Object>>( fileCnt);
-    // create workers..
-    for (int i= 0; i < fileCnt; i++) {
-      workers.add( new InputFileWorker( fileNames.get( i), bufferAppender));
-    }
-
-    // start workers and wait for all to finish
-    ExecutorService e= ThreadPoolExecutorService.getService();
-    try {
-      List<Future<Object>> workerResults= e.invokeAll( workers);
-      for (Future<Object> result : workerResults) {
-        try {
-          // throws the exception if one occurred during the invocation
-          result.get( 0, TimeUnit.MILLISECONDS);
-        }
-        catch (ExecutionException ex) {
-          // raise exception that occured in worker
-          throw (IOException) ex.getCause();
-        }
-        catch (CancellationException ignore) {
-        }
-        catch (TimeoutException ignore) {
-        }
-      }
-    }
-    catch (InterruptedException ignore) {
-      // ignore and finish
-    }
-
-    if (fileCnt > 1) {
-      Collections.sort( trackBuffer, new ByDateComparator());
-    }
-    final Boat boat= new Boat( options.getNumber());
-    boat.setName( options.getName());
-    return new Cruise( boat, trackBuffer);
+  public Cruise call() throws FileNotFoundException, IOException {
+    if (modelFactory == null)
+      throw new IllegalStateException( "model factory not set");
+    final List<TrackEvent> track= trackGenerator.generate();
+    return modelFactory.createCruise( boat, track);
   }
-
-  // //////////////////////////////////////////////////////////////////
-  // inner classes
-  // //////////////////////////////////////////////////////////////////
-  /**
-   * Appends {@link TrackEvent}s to a buffer.
-   * 
-   * @author Martin Weber
-   */
-  private static class TrackBufferAppender implements ITrackListener
-  {
-
-    /** shared track buffer */
-    private Vector<TrackEvent> buffer;
-
-    /**
-     * @param buffer
-     *        the shared buffer to fill with track events.
-     */
-    public TrackBufferAppender( Vector<TrackEvent> buffer)
-    {
-      if (buffer == null) {
-        throw new NullPointerException( "buffer");
-      }
-      this.buffer= buffer;
-    }
-
-    /*-
-     * @see de.marw.fifteenknots.nmeareader.ITrackListener#trackPoint(de.marw.fifteenknots.nmeareader.TrackEvent)
-     */
-    public void trackPoint( TrackEvent evt)
-    {
-      buffer.add( evt);
-    }
-
-  }// TrackBufferAppender
-
-  private static class InputFileWorker implements Callable<Object>
-  {
-    private NmeaParser parser;
-
-    /**
-     * @param fileName
-     * @param trackListener
-     * @throws FileNotFoundException
-     *         if the specified file cannot be found
-     */
-    public InputFileWorker( String fileName, ITrackListener trackListener)
-      throws FileNotFoundException
-    {
-      if (fileName == null) {
-        throw new NullPointerException( "fileName");
-      }
-      if (trackListener == null) {
-        throw new NullPointerException( "trackListener");
-      }
-
-      FileInputStream stream= new FileInputStream( fileName);
-      parser= new NmeaParser( stream, fileName);
-      parser.addTrackListener( trackListener);
-    }
-
-    /**
-     * Parses the input file and appends events to the buffer.
-     * 
-     * @return always {@code null}
-     * @throws IOException
-     *         If an I/O error occurs
-     */
-    public Object call() throws IOException
-    {
-      parser.parse();
-      return null;
-    }
-
-  }// InputFileWorker
-
-  private static class ByDateComparator implements Comparator<TrackEvent>
-  {
-
-    /*-
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */
-    public int compare( TrackEvent o1, TrackEvent o2)
-    {
-      return (int) (o1.getDate() - o2.getDate());
-    }
-
-  } // ByDateComparator
 }
