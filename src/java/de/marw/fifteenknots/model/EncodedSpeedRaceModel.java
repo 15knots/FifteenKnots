@@ -15,7 +15,7 @@ import java.util.List;
 public class EncodedSpeedRaceModel
 {
 
-  private List<? extends ICruise> cruises;
+  private List<? extends Cruise> cruises;
 
   private ISpeedEncoding speedEncoding;
 
@@ -23,14 +23,14 @@ public class EncodedSpeedRaceModel
    * @param cruises
    * @param speedEncoding
    */
-  public EncodedSpeedRaceModel( List<? extends ICruise> cruises,
+  public EncodedSpeedRaceModel( List<? extends Cruise> cruises,
     ISpeedEncoding speedEncoding)
   {
     this.cruises= cruises;
     this.speedEncoding= speedEncoding;
   }
 
-  public List<? extends ICruise> getCruises()
+  public List<? extends Cruise> getCruises()
   {
     return cruises;
   }
