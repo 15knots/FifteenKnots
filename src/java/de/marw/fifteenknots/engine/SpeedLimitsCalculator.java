@@ -5,24 +5,25 @@ package de.marw.fifteenknots.engine;
 
 import java.util.concurrent.Callable;
 
+import de.marw.fifteenknots.model.SpeedCruise;
 import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 
 /**
- * Calulates the maximum and minimum speed that a boat reached on its cruise.
- * 
+ * Enriches a {@code SpeedCruise} object with the calulated the maximum and
+ * minimum speed that the boat reached on its cruise.
+ *
  * @author Martin Weber
  */
-public class SpeedLimitsCalculator implements Callable<Object>
-{
+public class SpeedLimitsCalculator implements Callable<Object> {
 
-  private final Cruise cruise;
+  private final SpeedCruise cruise;
 
   /**
    * @param cruise
-   *        the cruise for which the speeds shoul be calculated.
+   *        the cruise for which the speeds should be calculated.
    */
-  public SpeedLimitsCalculator( Cruise cruise)
+  public SpeedLimitsCalculator( SpeedCruise cruise)
   {
     if (cruise == null) {
       throw new NullPointerException( "cruise");
@@ -32,8 +33,9 @@ public class SpeedLimitsCalculator implements Callable<Object>
 
   /**
    * Calulates the maximum and minimum speed that a boat reached on its cruise
-   * from the cruise's {@linkplain Cruise#getTrackpoints() track points}.
-   * 
+   * from the cruise's {@linkplain SpeedCruise#getTrackpoints() track points}
+   * and stores these values in the cruise object..
+   *
    * @return always {@code null}
    */
   public Object call()
@@ -43,13 +45,13 @@ public class SpeedLimitsCalculator implements Callable<Object>
     for (TrackEvent evt : cruise.getTrackpoints()) {
       final Float speed= evt.getSpeed();
       if (speed != null) {
-        float speedF= speed.floatValue();
-        if (speedF > 0.0 && speedF < speedMin) {
-          speedMin= speedF;
-        }
-        else if (speedF > speedMax) {
-          speedMax= speedF;
-        }
+	float speedF= speed.floatValue();
+	if (speedF > 0.0 && speedF < speedMin) {
+	  speedMin= speedF;
+	}
+	else if (speedF > speedMax) {
+	  speedMax= speedF;
+	}
       }
     }
     cruise.setSpeedMax( speedMax);
