@@ -1,11 +1,11 @@
-// $Header$
+// $Id$
 // Copyright © 2008 Martin Weber
 
 package de.marw.fifteenknots.main;
 
 /**
  * Types of output that can be produced by the program.
- * 
+ *
  * @author Martin Weber
  */
 enum OutputType implements ParsableTypeOption
@@ -15,15 +15,9 @@ enum OutputType implements ParsableTypeOption
 
     public boolean matchesOption( String arg)
     {
-      if ("kml".equals( arg)) {
-        return true;
-      }
-      return false;
+      return "kml".equals( arg);
     }
 
-    /*-
-     * @see de.marw.fifteenknots.main.OutputType#createCmdlineKit()
-     */
     @Override
     public CmdlineKit createCmdlineKit()
     {
@@ -49,16 +43,17 @@ enum OutputType implements ParsableTypeOption
 
     public boolean matchesOption( String arg)
     {
-      if ("flash".equals( arg)) {
-        // TODO Auto-generated method stub since 26.12.2008
-        // return true;
-      }
-      return false;
+      return "flash".equals( arg);
+    }
+
+    @Override
+    public CmdlineKit createCmdlineKit()
+    {
+      return new SWFCmdlineKit();
     }
 
     public String getDescription()
     {
-      // TODO Auto-generated method stub since 26.12.2008
       return "flash:\tflash format with boat animation";
     }
 
