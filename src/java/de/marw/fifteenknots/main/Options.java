@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class Options
 {
-  private String outputFile;
 
   private List<BoatOptions> boats= new ArrayList<BoatOptions>();
 
@@ -20,17 +19,6 @@ public class Options
   {
     boats.add( boat);
     boat.setNumber( boats.size());
-  }
-
-  /**
-   * Gets the outputFile property.
-   * 
-   * @return the current outputFile property.
-   */
-  public String getOutputFileName()
-  {
-    System.err.println();
-    return this.outputFile;
   }
 
   /**
@@ -45,28 +33,9 @@ public class Options
 
   public void validate() throws OptionValidationException
   {
-    for (BoatOptions boat : boats) {
+    for (ValidatableOption boat : boats) {
       boat.validate();
     }
   }
 
-  /**
-   * Sets the name of the output file property.
-   * 
-   * @see Options#outputFile
-   */
-  void setOutputFileName( String outputFile)
-  {
-    this.outputFile= outputFile;
-  }
-
-  /**
-   * Gets the number of colors to use for visual boat speed coding.
-   * 
-   * @return a value grater than zero.
-   */
-  public int getColorCount()
-  {
-     return 120;
-  }
 }

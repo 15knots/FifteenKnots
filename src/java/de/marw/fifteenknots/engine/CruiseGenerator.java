@@ -25,7 +25,7 @@ public class CruiseGenerator implements Callable<Cruise> {
 
   private final Boat boat;
 
-  private TrackGenerator trackGenerator;
+  private final TrackGenerator trackGenerator;
 
   private RaceModelFactory modelFactory;
 
@@ -45,6 +45,7 @@ public class CruiseGenerator implements Callable<Cruise> {
       throw new NullPointerException( "boat");
     }
     this.boat= boat;
+    this.modelFactory= modelFactory;
     this.trackGenerator= new TrackGenerator();
   }
 

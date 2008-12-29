@@ -11,7 +11,7 @@ import java.util.List;
  * 
  * @author Martin Weber
  */
-public class BoatOptions
+public class BoatOptions implements ValidatableOption
 {
   /** the number of the boat by position on commandline */
   private int number;
@@ -70,8 +70,8 @@ public class BoatOptions
     this.name= name;
   }
 
-  /**
-   * 
+  /*-
+   * @see de.marw.fifteenknots.main.ValidatableOption#validate()
    */
   public void validate() throws OptionValidationException
   {

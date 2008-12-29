@@ -12,7 +12,7 @@ import de.marw.fifteenknots.model.ISpeedEncoding;
 /**
  * @author Martin Weber
  */
-class SpeedEncoding implements ISpeedEncoding
+public class SpeedEncoding implements ISpeedEncoding
 {
 
   private List<SpeedRange> ranges;

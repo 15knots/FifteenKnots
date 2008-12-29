@@ -59,7 +59,6 @@
       </LineStyle>
       <ListStyle>
         <color>${color}</color>
-        <bgColor>ff336699</bgColor>
       </ListStyle>
     </Style>
     </#list>
@@ -97,7 +96,7 @@
           <#list cruise.trackpoints as point>
           
           <Placemark>
-            <name>${point_index}<#if point.speed??>[${point.speed} kts]</#if></name>
+            <name>${point_index}<#if point.speed??> [${point.speed} kts]</#if></name>
             <Snippet maxLines="2"></Snippet>
             <description></description>
             <LookAt>
@@ -120,7 +119,7 @@
           <name>Cruise</name>
           <#list cruise.polyLines as line>
         <Placemark>
-          <name>Speed ${line.colorIndex}</name>
+          <name>${line_index} (Sp ${line.colorIndex})</name>
           <styleUrl>#speed_${line.colorIndex?c}</styleUrl>
           <LineString>
             <tessellate>1</tessellate>

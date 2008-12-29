@@ -31,7 +31,7 @@ import de.marw.fifteenknots.nmeareader.TrackEvent;
  * Reads all input files for a {@code Boat}, extracts the the {@link TrackEvent
  * track points} and returns the {@link TrackEvent track points} from the
  * {@link #generate()} method.
- * 
+ *
  * @author Martin Weber
  */
 public class TrackGenerator
@@ -40,7 +40,7 @@ public class TrackGenerator
 
   /**
    * Constructs a new object with zero files to read in.
-   * 
+   *
    * @see #addFileName(String)
    */
   public TrackGenerator()
@@ -50,17 +50,17 @@ public class TrackGenerator
 
   /**
    * Adds all specified input file names to be read.
-   * 
+   *
    * @see TrackGenerator#addFileName(String)
    */
   public void addFileNames( Collection<String> fileNames)
   {
-    fileNames.addAll( fileNames);
+    this.fileNames.addAll( fileNames);
   }
 
   /**
    * Adds the specified input file name to be read.
-   * 
+   *
    * @see TrackGenerator#addFileNames(Collection)
    */
   public void addFileName( String fileName)
@@ -80,7 +80,7 @@ public class TrackGenerator
 
   /**
    * Reads all input files and gathers track events.
-   * 
+   *
    * @throws FileNotFoundException
    *         if the specified file cannot be found
    * @throws IOException
@@ -111,8 +111,17 @@ public class TrackGenerator
           result.get( 0, TimeUnit.MILLISECONDS);
         }
         catch (ExecutionException ex) {
-          // raise exception that occured in worker
-          throw (IOException) ex.getCause();
+	  // raise exception that occured in worker
+	  final Throwable cause= ex.getCause();
+	  if (cause instanceof IOException) {
+	    throw (IOException) cause;
+	  }
+	  else if (cause instanceof RuntimeException) {
+	    throw (RuntimeException) cause;
+	  }
+	  else if (cause instanceof Error) {
+	    throw (Error) cause;
+	  }
         }
         catch (CancellationException ignore) {
         }
@@ -135,7 +144,7 @@ public class TrackGenerator
   // //////////////////////////////////////////////////////////////////
   /**
    * Appends {@link TrackEvent}s to a buffer.
-   * 
+   *
    * @author Martin Weber
    */
   private static class TrackBufferAppender implements ITrackListener
@@ -193,7 +202,7 @@ public class TrackGenerator
 
     /**
      * Parses the input file and appends events to the buffer.
-     * 
+     *
      * @return always {@code null}
      * @throws IOException
      *         If an I/O error occurs

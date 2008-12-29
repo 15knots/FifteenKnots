@@ -10,13 +10,13 @@ import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 
 /**
- * A cruise of a boat with statictic data about the boat's speed and track
+ * A cruise of a boat with statistic data about the boat's speed and track
  * points {@link #getPolyLines() condensed by speed}. Each of the track points
  * in the list is guaranteed to hold information about
  * {@link TrackEvent#getSpeed() speed}, additionally to the basic
  * {@link TrackEvent#getDate() date} and {@link TrackEvent#getPosition()
  * position} information.
- * 
+ *
  * @author Martin Weber
  */
 public class SpeedCruise extends BasicCruise
@@ -54,7 +54,7 @@ public class SpeedCruise extends BasicCruise
 
   /**
    * Sets the maximum speed that the boat reached on the cruise.
-   * 
+   *
    * @param speedMax
    *        the maximum speed that the boat reached on the cruise.
    */
@@ -73,7 +73,7 @@ public class SpeedCruise extends BasicCruise
 
   /**
    * Sets the minimum speed that the boat reached on the cruise.
-   * 
+   *
    * @param speedMin
    *        the minimum speed that the boat reached on the cruise.
    */

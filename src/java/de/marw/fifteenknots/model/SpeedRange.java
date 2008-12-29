@@ -8,7 +8,7 @@ import java.awt.Color;
 
 /**
  * A speed range encoded as a color.
- * 
+ *
  * @author Martin Weber
  */
 public class SpeedRange
@@ -57,4 +57,13 @@ public class SpeedRange
   {
     return color;
   }
+
+  /*-
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "[min=" + lowerLimit + ",max=" + upperLimit + ",color=" + color.toString()+ "]";
+  }
+
 }
