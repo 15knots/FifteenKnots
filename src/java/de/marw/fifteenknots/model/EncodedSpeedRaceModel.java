@@ -13,16 +13,16 @@ package de.marw.fifteenknots.model;
  */
 public class EncodedSpeedRaceModel extends BasicRaceModel {
 
-  private ISpeedEncoding speedEncoding;
+  private SpeedEncoding speedEncoding;
 
-  public final ISpeedEncoding getSpeedEncoding() {
+  public final SpeedEncoding getSpeedEncoding() {
     return speedEncoding;
   }
 
   /**
    * Sets the speedEncoding property.
    */
-  public final void setSpeedEncoding( ISpeedEncoding speedEncoding) {
+  public final void setSpeedEncoding( SpeedEncoding speedEncoding) {
     this.speedEncoding= speedEncoding;
   }
 }
