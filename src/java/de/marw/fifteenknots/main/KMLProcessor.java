@@ -1,3 +1,5 @@
+// $Id$
+// Copyright © 2008 Martin Weber
 
 package de.marw.fifteenknots.main;
 
@@ -56,7 +58,7 @@ class KMLProcessor implements IProcessor {
    * @throws FileNotFoundException
    *         if one of the specified files cannot be found
    * @throws IOException
-   *         If an I/O error occurs
+   *         if an I/O error occurs
    * @see de.marw.fifteenknots.engine.IProcessor#process()
    */
   public void process() throws FileNotFoundException, IOException {
