@@ -3,13 +3,13 @@ package de.marw.fifteenknots.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.marw.fifteenknots.model.IPolyLine;
+import de.marw.fifteenknots.model.PolyLine;
 import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 /**
  * @author Martin Weber
  */
-final class PolylineImpl implements IPolyLine {
+final class PolylineImpl implements PolyLine {
 
   private final List<TrackEvent> segments= new ArrayList<TrackEvent>();
 

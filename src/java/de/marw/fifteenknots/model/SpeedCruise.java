@@ -22,7 +22,7 @@ import de.marw.fifteenknots.nmeareader.TrackEvent;
 public class SpeedCruise extends BasicCruise
 {
 
-  private final List<IPolyLine> polylines= new ArrayList<IPolyLine>();
+  private final List<PolyLine> polylines= new ArrayList<PolyLine>();
 
   private float speedMin;
 
@@ -39,7 +39,7 @@ public class SpeedCruise extends BasicCruise
   /**
    * Gets all lines made of consecutive track points with similiar speed.
    */
-  public List<IPolyLine> getPolyLines()
+  public List<PolyLine> getPolyLines()
   {
     return polylines;
   }

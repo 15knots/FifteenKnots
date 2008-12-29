@@ -6,13 +6,13 @@ package de.marw.fifteenknots.engine;
 import java.util.Iterator;
 import java.util.concurrent.Callable;
 
-import de.marw.fifteenknots.model.IPolyLine;
+import de.marw.fifteenknots.model.PolyLine;
 import de.marw.fifteenknots.model.SpeedCruise;
 import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 
 /**
- * Enriches a {@code SpeedCruise} object with the calulated {@link IPolyLine}s.
+ * Enriches a {@code SpeedCruise} object with the calulated {@link PolyLine}s.
  * The calculated lines encode the boat's speed as a color.
  *
  * @author Martin Weber
@@ -42,7 +42,7 @@ public class PolylineCalculator implements Callable<Object> {
   }
 
   /**
-   * Calulates the {@link IPolyLine}s from the cruise's
+   * Calulates the {@link PolyLine}s from the cruise's
    * {@linkplain SpeedCruise#getTrackpoints() track points} and stores these
    * values in the cruise object.
    *
