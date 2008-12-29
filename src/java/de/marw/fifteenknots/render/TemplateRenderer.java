@@ -1,4 +1,4 @@
-// $Header$
+// $Id$
 /*
  * Copyright 2008 by Martin Weber
  */

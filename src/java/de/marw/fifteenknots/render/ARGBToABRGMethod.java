@@ -1,4 +1,4 @@
-// $Header$
+// $Id$
 // Copyright © 2008 Martin Weber
 
 package de.marw.fifteenknots.render;
