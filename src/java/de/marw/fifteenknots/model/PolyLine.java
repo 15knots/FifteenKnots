@@ -10,10 +10,10 @@ import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 /**
  * A continuous line composed of one or more line segments.
- * 
+ *
  * @author Martin Weber
  */
-public interface IPolyLine
+public interface PolyLine
 {
   /**
    * Gets the color index for display of this polyline.
