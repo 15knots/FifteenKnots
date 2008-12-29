@@ -13,7 +13,7 @@ import java.util.Formatter;
  * <code>TrackEvent</code> is used to notify interested parties that the
  * position has changed in the event source. At the minimum, instances will
  * contain the position on earth and the time when that position was reached.
- * 
+ *
  * @author Martin Weber
  */
 public class TrackEvent extends EventObject
@@ -123,11 +123,12 @@ public class TrackEvent extends EventObject
     StringBuilder sb= new StringBuilder();
     // Send all output to the Appendable object sb
     Formatter formatter= new Formatter( sb);
-    formatter.format( "%tF %<tT.%<tL, %s", getDate(), getPosition());
+    formatter.format( "[%tF %<tT.%<tL, %s", getDate(), getPosition());
     if (getSpeed() != null)
       formatter.format( ", %fkts", getSpeed());
     if (getBearing() != null)
       formatter.format( ", %f°", getBearing());
+    sb.append( ']');
     return sb.toString();
   }
 
