@@ -10,8 +10,8 @@ import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 
 /**
- * Enriches a {@code SpeedCruise} object with the calulated the maximum and
- * minimum speed that the boat reached on its cruise.
+ * Enriches a {@code SpeedCruise} object with the calulated maximum and minimum
+ * speed that the boat reached on its cruise.
  *
  * @author Martin Weber
  */
@@ -23,8 +23,7 @@ public class SpeedLimitsCalculator implements Callable<Object> {
    * @param cruise
    *        the cruise for which the speeds should be calculated.
    */
-  public SpeedLimitsCalculator( SpeedCruise cruise)
-  {
+  public SpeedLimitsCalculator( SpeedCruise cruise) {
     if (cruise == null) {
       throw new NullPointerException( "cruise");
     }
@@ -38,15 +37,14 @@ public class SpeedLimitsCalculator implements Callable<Object> {
    *
    * @return always {@code null}
    */
-  public Object call()
-  {
+  public Object call() {
     float speedMin= Float.MAX_VALUE;
     float speedMax= Float.MIN_VALUE;
     for (TrackEvent evt : cruise.getTrackpoints()) {
       final Float speed= evt.getSpeed();
       if (speed != null) {
 	float speedF= speed.floatValue();
-	if (speedF > 0.0 && speedF < speedMin) {
+	if (speedF < speedMin) {
 	  speedMin= speedF;
 	}
 	else if (speedF > speedMax) {

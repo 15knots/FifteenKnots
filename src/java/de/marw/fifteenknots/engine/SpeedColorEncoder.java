@@ -13,7 +13,7 @@ import de.marw.fifteenknots.model.SpeedRange;
 
 /**
  * Provides colors for boat speed values.
- * 
+ *
  * @author Martin Weber
  */
 public class SpeedColorEncoder
@@ -36,7 +36,7 @@ public class SpeedColorEncoder
    */
   public SpeedColorEncoder( int colorCount, float speedMin, float speedMax)
   {
-    speeds= new float[colorCount + 1];
+    speeds= new float[colorCount];
     colors= new Color[speeds.length];
 
     // populate encoding tables...
@@ -49,11 +49,11 @@ public class SpeedColorEncoder
     // Hierzu kann eine Konvertierung in das HSV-System verwendet werden,
     // wobei der Wertebereich auf H (Hue) abgebildet wird
 
-    final float stepSize= (speedMax - speedMin) / colorCount;
+    final float stepSize= (speedMax - speedMin) / (colorCount-1);
     final float hueSize= 240 / colorCount;
     // compute overall speed levels...
     for (int i= 0; i < speeds.length; i++) {
-      speeds[i]= stepSize * i;
+      speeds[i]= speedMin +stepSize * i;
       final float[] rgb= convertHSVtoRGB( 240 - hueSize * i, 1.0f, 1.0f);
       colors[i]= new Color( rgb[0], rgb[1], rgb[2], 1.0f);
     }
@@ -61,7 +61,7 @@ public class SpeedColorEncoder
 
   /**
    * Gets the color that represents the specified speed.
-   * 
+   *
    * @param speed
    *        the speed greater than zero.
    * @return the speed, encoded as a Color object.
@@ -101,7 +101,7 @@ public class SpeedColorEncoder
 
   /**
    * Gets an index for the color that represents the specified speed.
-   * 
+   *
    * @param speed
    *        the speed grester than zero.
    * @return an index greater or equal tha zero that denotes the encoded color.
@@ -129,7 +129,7 @@ public class SpeedColorEncoder
    * <i>Computer Graphics Principles and Practice, 2nd Edition</i>, Addison
    * Wesley, 1990.
    * <p/>
-   * 
+   *
    * @param h
    *        The Hue component of the color [0..369], relative to the Red axis
    *        with red at angle 0, green at 2Pi/3, blue at 4Pi/3 and red again at
@@ -145,7 +145,7 @@ public class SpeedColorEncoder
    */
   public static float[] convertHSVtoRGB( float h, float s, float v)
   {
-    
+
     float r= 0;
     float g= 0;
     float b= 0;
