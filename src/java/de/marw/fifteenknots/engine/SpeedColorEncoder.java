@@ -6,8 +6,8 @@ package de.marw.fifteenknots.engine;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
+import de.marw.fifteenknots.model.SpeedEncoding;
 import de.marw.fifteenknots.model.SpeedRange;
 
 
@@ -16,26 +16,24 @@ import de.marw.fifteenknots.model.SpeedRange;
  *
  * @author Martin Weber
  */
-public class SpeedColorEncoder
-{
+public class SpeedColorEncoder {
 
   private final float[] speeds;
 
   private final Color[] colors;
 
   /** speed ranges, lazily initialized */
-  private ArrayList<SpeedRange> ranges;
+  private volatile SpeedEncoding speedEncoding;
 
   /**
    * @param colorCount
-   *        the number of colors available for encoding
+   *        the number of colors available for encoding.
    * @param speedMin
    *        the minimum speed that should be encoded.
    * @param speedMax
    *        the maximum speed that should be encoded.
    */
-  public SpeedColorEncoder( int colorCount, float speedMin, float speedMax)
-  {
+  public SpeedColorEncoder( int colorCount, float speedMin, float speedMax) {
     speeds= new float[colorCount];
     colors= new Color[speeds.length];
 
@@ -49,11 +47,11 @@ public class SpeedColorEncoder
     // Hierzu kann eine Konvertierung in das HSV-System verwendet werden,
     // wobei der Wertebereich auf H (Hue) abgebildet wird
 
-    final float stepSize= (speedMax - speedMin) / (colorCount-1);
+    final float stepSize= (speedMax - speedMin) / (colorCount - 1);
     final float hueSize= 240 / colorCount;
     // compute overall speed levels...
     for (int i= 0; i < speeds.length; i++) {
-      speeds[i]= speedMin +stepSize * i;
+      speeds[i]= speedMin + stepSize * i;
       final float[] rgb= convertHSVtoRGB( 240 - hueSize * i, 1.0f, 1.0f);
       colors[i]= new Color( rgb[0], rgb[1], rgb[2], 1.0f);
     }
@@ -63,62 +61,62 @@ public class SpeedColorEncoder
    * Gets the color that represents the specified speed.
    *
    * @param speed
-   *        the speed greater than zero.
+   *        the speed greater or equal than zero.
    * @return the speed, encoded as a Color object.
    */
-  public Color encodeSpeed( Float speed)
-  {
+  public Color encodeSpeed( Float speed) {
     int idx= getEncodedColorIndex( speed);
     return colors[idx];
-  }
-
-  /**
-   * Gets the speed ranges of this encoder.
-   */
-  public List<SpeedRange> getRanges()
-  {
-    synchronized (this ) {
-      if (ranges == null) {
-        ranges= createRanges();
-      }
-    }
-    return ranges;
-  }
-
-  /**
-   */
-  private ArrayList<SpeedRange> createRanges()
-  {
-    ArrayList<SpeedRange> spList= new ArrayList<SpeedRange>( speeds.length);
-    for (int i= 0; i < speeds.length; i++) {
-      SpeedRange es= new SpeedRange( speeds[i], i + 1 < speeds.length
-        ? speeds[i + 1] : speeds[i], colors[i]);
-      spList.add( es);
-    }
-    spList.trimToSize();
-    return spList;
   }
 
   /**
    * Gets an index for the color that represents the specified speed.
    *
    * @param speed
-   *        the speed grester than zero.
-   * @return an index greater or equal tha zero that denotes the encoded color.
+   *        the speed greater or equal than zero.
+   * @return the index that identifies the color encoded speed. The returned
+   *         value will be greater or equal than zero and less than the number
+   *         of colors provided in the constructor.
    */
-  public int getEncodedColorIndex( Float speed)
-  {
+  public int getEncodedColorIndex( Float speed) {
     int idx= Arrays.binarySearch( speeds, speed);
     if (idx >= 0) {
       if (idx >= speeds.length) {
-        // above highest speed;
-        idx= speeds.length - 1;
+	// above highest speed;
+	idx= speeds.length - 1;
       }
     }
     else { // not in table
       idx= -idx - 2;
     }
     return idx;
+  }
+
+  /**
+   * Gets the color encoded speed ranges.
+   */
+  public SpeedEncoding getSpeedEncoding() {
+    if (speedEncoding == null) { // variable ref initialization is atomic
+      synchronized (this ) {
+	if (speedEncoding == null) {
+	  speedEncoding= createSpeedEncoding();
+	}
+      }
+    }
+    return speedEncoding;
+  }
+
+  /**
+   */
+  private SpeedEncoding createSpeedEncoding() {
+    ArrayList<SpeedRange> spList= new ArrayList<SpeedRange>( speeds.length);
+    for (int i= 0; i < speeds.length; i++) {
+      SpeedRange es= new SpeedRange( speeds[i], i + 1 < speeds.length
+	? speeds[i + 1] : speeds[i], colors[i]);
+      spList.add( es);
+    }
+    spList.trimToSize();
+    return new SpeedEncodingImpl( spList);
   }
 
   /**
@@ -143,8 +141,7 @@ public class SpeedColorEncoder
    *        The v component of the color
    * @return An array to return the RGB colour values in
    */
-  public static float[] convertHSVtoRGB( float h, float s, float v)
-  {
+  public static float[] convertHSVtoRGB( float h, float s, float v) {
 
     float r= 0;
     float g= 0;
@@ -153,14 +150,14 @@ public class SpeedColorEncoder
     if (s == 0) {
       // this color in on the black white center line <=> h = UNDEFINED
       if (Float.isNaN( h)) {
-        // Achromatic color, there is no hue
-        r= v;
-        g= v;
-        b= v;
+	// Achromatic color, there is no hue
+	r= v;
+	g= v;
+	b= v;
       }
       else {
-        throw new IllegalArgumentException(
-          "Invalid h (it has a value) value when s is zero");
+	throw new IllegalArgumentException(
+	  "Invalid h (it has a value) value when s is zero");
       }
     }
     else {
@@ -176,41 +173,41 @@ public class SpeedColorEncoder
       float t= v * (1 - (s * (1 - f)));
 
       switch (i) {
-        case 0:
-          r= v;
-          g= t;
-          b= p;
-        break;
+	case 0:
+	  r= v;
+	  g= t;
+	  b= p;
+	break;
 
-        case 1:
-          r= q;
-          g= v;
-          b= p;
-        break;
+	case 1:
+	  r= q;
+	  g= v;
+	  b= p;
+	break;
 
-        case 2:
-          r= p;
-          g= v;
-          b= t;
-        break;
+	case 2:
+	  r= p;
+	  g= v;
+	  b= t;
+	break;
 
-        case 3:
-          r= p;
-          g= q;
-          b= v;
-        break;
+	case 3:
+	  r= p;
+	  g= q;
+	  b= v;
+	break;
 
-        case 4:
-          r= t;
-          g= p;
-          b= v;
-        break;
+	case 4:
+	  r= t;
+	  g= p;
+	  b= v;
+	break;
 
-        case 5:
-          r= v;
-          g= p;
-          b= q;
-        break;
+	case 5:
+	  r= v;
+	  g= p;
+	  b= q;
+	break;
       }
     }
 

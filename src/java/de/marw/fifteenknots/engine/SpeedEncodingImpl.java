@@ -5,17 +5,17 @@ package de.marw.fifteenknots.engine;
 
 import java.util.List;
 
-import de.marw.fifteenknots.model.SpeedRange;
 import de.marw.fifteenknots.model.SpeedEncoding;
+import de.marw.fifteenknots.model.SpeedRange;
 
 
 /**
  * @author Martin Weber
  */
-public class SpeedEncodingImpl implements SpeedEncoding
+class SpeedEncodingImpl implements SpeedEncoding
 {
 
-  private List<SpeedRange> ranges;
+  private final List<SpeedRange> ranges;
 
   /**
    * @param ranges

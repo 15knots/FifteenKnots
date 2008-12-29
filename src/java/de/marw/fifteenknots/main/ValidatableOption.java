@@ -6,11 +6,11 @@ package de.marw.fifteenknots.main;
 /**
  * @author Martin Weber
  */
-public interface ValidatableOption
+interface ValidatableOption
 {
 
   /**
-   * 
+   *
    */
   void validate() throws OptionValidationException;
 

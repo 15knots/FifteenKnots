@@ -6,7 +6,7 @@ package de.marw.fifteenknots.main;
 /**
  * @author Martin Weber
  */
-public class OptionValidationException extends Exception
+class OptionValidationException extends Exception
 {
 
   /**
@@ -16,7 +16,6 @@ public class OptionValidationException extends Exception
   public OptionValidationException( String message, Throwable cause)
   {
     super( message, cause);
-    // TODO Auto-generated constructor stub
   }
 
   /**
@@ -25,7 +24,6 @@ public class OptionValidationException extends Exception
   public OptionValidationException( String message)
   {
     super( message);
-    // TODO Auto-generated constructor stub
   }
 
 }

@@ -9,6 +9,8 @@ import de.marw.fifteenknots.engine.IProcessor;
 
 
 /**
+ * A commandline kit implementation for the KML output format (Google Earth).
+ *
  * @author Martin Weber
  */
 class KMLCmdlineKit implements CmdlineKit {

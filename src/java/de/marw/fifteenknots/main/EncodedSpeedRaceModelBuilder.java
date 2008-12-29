@@ -19,7 +19,6 @@ import de.marw.fifteenknots.engine.EncodedSpeedRMFactory;
 import de.marw.fifteenknots.engine.PolylineCalculator;
 import de.marw.fifteenknots.engine.RaceModelFactory;
 import de.marw.fifteenknots.engine.SpeedColorEncoder;
-import de.marw.fifteenknots.engine.SpeedEncodingImpl;
 import de.marw.fifteenknots.engine.SpeedLimitsCalculator;
 import de.marw.fifteenknots.engine.ThreadPoolExecutorService;
 import de.marw.fifteenknots.model.EncodedSpeedRaceModel;
@@ -68,7 +67,7 @@ class EncodedSpeedRaceModelBuilder extends BasicRaceModelBuilder {
     // calculate Polylines of speed levels for all boats...
     calcPolyLines( cruises, sce);
 
-    model.setSpeedEncoding( new SpeedEncodingImpl( sce.getRanges()));
+    model.setSpeedEncoding( sce.getSpeedEncoding());
     return model;
   }
 

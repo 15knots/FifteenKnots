@@ -7,10 +7,10 @@ import java.util.List;
 
 /**
  * Parsed commandline options.
- * 
+ *
  * @author Martin Weber
  */
-public class Options
+class Options
 {
 
   private List<BoatOptions> boats= new ArrayList<BoatOptions>();
@@ -23,7 +23,7 @@ public class Options
 
   /**
    * Gets the boats property.
-   * 
+   *
    * @return the current boats property.
    */
   public List<BoatOptions> getBoats()
