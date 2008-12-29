@@ -17,9 +17,9 @@ import java.util.Map;
 import de.marw.fifteenknots.engine.IProcessor;
 import de.marw.fifteenknots.engine.RaceModelBuilder;
 import de.marw.fifteenknots.model.RaceModel;
-import de.marw.fifteenknots.render.ARGBToABRGMethod;
-import de.marw.fifteenknots.render.MillisToDateMethod;
-import de.marw.fifteenknots.render.TemplateRenderer;
+import de.marw.fifteenknots.render.kml.ARGBToABRGMethod;
+import de.marw.fifteenknots.render.kml.MillisToDateMethod;
+import de.marw.fifteenknots.render.kml.TemplateRenderer;
 import freemarker.template.TemplateException;
 
 
