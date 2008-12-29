@@ -1,7 +1,7 @@
 // $Id$
 // Copyright © 2008 Martin Weber
 
-package de.marw.fifteenknots.render;
+package de.marw.fifteenknots.render.kml;
 
 import java.util.Date;
 import java.util.List;

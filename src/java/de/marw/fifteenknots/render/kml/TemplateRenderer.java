@@ -3,7 +3,7 @@
  * Copyright 2008 by Martin Weber
  */
 
-package de.marw.fifteenknots.render;
+package de.marw.fifteenknots.render.kml;
 
 import java.io.IOException;
 import java.io.Writer;
