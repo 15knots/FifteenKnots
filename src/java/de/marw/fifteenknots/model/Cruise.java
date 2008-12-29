@@ -11,12 +11,12 @@ import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 
 /**
- * A cruise of a boat.
- * 
+ * Represents the cruise of a boat.
+ *
  * @author Martin Weber
  */
-public interface ICruise
-{
+public interface Cruise {
+
   /**
    * Gets metadata about the boat.
    */
@@ -24,13 +24,8 @@ public interface ICruise
 
   /**
    * Gets all track points recorded for this cruise.
-   * 
+   *
    * @return all track points ordered ascending by time.
    */
   public List<TrackEvent> getTrackpoints();
-
-  /**
-   * Gets all lines of similiar speed derived from the track point.
-   */
-  public List<IPolyLine> getPolyLines();
 }
