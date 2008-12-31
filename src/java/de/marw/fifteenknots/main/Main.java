@@ -138,6 +138,12 @@ public class Main {
 	    break;
 	  }
 	}
+	if (kit == null) {
+	  String format= "unkown output type -- {0} ";
+	  throw new OptionValidationException( MessageFormat.format( format,
+	    typeArg));
+	}
+
       }
       else if (arg.equals( "-boat")) {
 	BoatOptions boatOption= new BoatOptions();
