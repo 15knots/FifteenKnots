@@ -29,31 +29,39 @@ public class SpeedColorEncoder {
    * @param colorCount
    *        the number of colors available for encoding.
    * @param speedMin
-   *        the minimum speed that should be encoded.
+   *        the minimum speed (inclusively) that should be encoded.
    * @param speedMax
-   *        the maximum speed that should be encoded.
+   *        the maximum speed (inclusively) that should be encoded.
    */
   public SpeedColorEncoder( int colorCount, float speedMin, float speedMax) {
-    speeds= new float[colorCount];
-    colors= new Color[speeds.length];
+    if (colorCount <= 1) {
+      speeds= new float[] { speedMin }; // new float[colorCount];
+      colors= new Color[] { Color.RED };
+    }
+    else {
+      speeds= new float[colorCount];
+      colors= new Color[speeds.length];
 
-    // populate encoding tables...
-    // 128 stufen für menschliches Auge unterscheidbar.
-    // Gegeben sei ein Algorithmus, der ein Grauwertbild liefert . Die
-    // Intensitäten liegen zwischen 0 und 2^24-1. Wie würden sie das Bild
-    // farblich kodieren, so dass der angegebene Intensitätsbereich farblich
-    // abgebildet wird? Dabei sollen hohe Intensitätswerte warmen (roten) Farben
-    // und niedrige kalten (blauen) Farben entsprechen.
-    // Hierzu kann eine Konvertierung in das HSV-System verwendet werden,
-    // wobei der Wertebereich auf H (Hue) abgebildet wird
+      // populate encoding tables...
+      // 128 stufen für menschliches Auge unterscheidbar.
+      // Gegeben sei ein Algorithmus, der ein Grauwertbild liefert . Die
+      // Intensitäten liegen zwischen 0 und 2^24-1. Wie würden sie das Bild
+      // farblich kodieren, so dass der angegebene Intensitätsbereich farblich
+      // abgebildet wird? Dabei sollen hohe Intensitätswerte warmen (roten)
+      // Farben
+      // und niedrige kalten (blauen) Farben entsprechen.
+      // Hierzu kann eine Konvertierung in das HSV-System verwendet werden,
+      // wobei der Wertebereich auf H (Hue) abgebildet wird
 
-    final float stepSize= (speedMax - speedMin) / (colorCount - 1);
-    final float hueSize= 240 / colorCount;
-    // compute overall speed levels...
-    for (int i= 0; i < speeds.length; i++) {
-      speeds[i]= speedMin + stepSize * i;
-      final float[] rgb= convertHSVtoRGB( 240 - hueSize * i, 1.0f, 1.0f);
-      colors[i]= new Color( rgb[0], rgb[1], rgb[2], 1.0f);
+      final float stepSize=
+	(speedMax + 1.40239846e-45f - speedMin) / colorCount;
+      final float hueSize= 240 / (colorCount - 1);
+      // compute overall speed levels...
+      for (int i= 0; i < speeds.length; i++) {
+	speeds[i]= speedMin + stepSize * i;
+	final float[] rgb= convertHSVtoRGB( 240 - hueSize * i, 1.0f, 1.0f);
+	colors[i]= new Color( rgb[0], rgb[1], rgb[2], 1.0f);
+      }
     }
   }
 
