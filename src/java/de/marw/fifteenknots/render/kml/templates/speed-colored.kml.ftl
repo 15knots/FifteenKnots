@@ -65,12 +65,12 @@
     
     <Style id="lineStyle1">
       <LineStyle>
-        <color>ffff0000</color>
+        <color>ffffffff</color>
       </LineStyle>
     </Style>
 
     <Folder>
-    <name>Legend</name>
+    <name>Speed in knots</name>
     <#-- legend for speed to color encoding -->
     <#list race.speedEncoding.ranges as range>
     <ScreenOverlay>
@@ -83,7 +83,6 @@
 </#list>
     </Folder>
 
-
 <#if (race.cruises?size> 1)>
     <Folder>
       <name>Boats</name>
@@ -94,7 +93,6 @@
         <Folder>
           <name>Trackpoints</name>
           <#list cruise.trackpoints as point>
-          
           <Placemark>
             <name>${point_index}<#if point.speed??> [${point.speed} kts]</#if></name>
             <Snippet maxLines="2"></Snippet>
@@ -105,7 +103,7 @@
               <range>100</range>
             </LookAt>
             <TimeStamp>
-              <when>${millisToDate(point.date)?datetime?string("yyyy-MM-dd'T'hh:mm:ss'Z'")}</when>
+              <when>${millisToDate(point.date)?datetime?string("yyyy-MM-dd'T'HH:mm:ss'Z'")}</when>
             </TimeStamp>
             <styleUrl>#track</styleUrl>
             <Point>
@@ -114,7 +112,6 @@
           </Placemark>
           </#list> <#-- trackpoints -->
         </Folder>
-        
         <Folder>
           <name>Cruise</name>
           <#list cruise.polyLines as line>
@@ -137,5 +134,18 @@
       </Folder>
 </#if>
     </Folder>
+      <Placemark>
+      <name>Outline</name>
+          <styleUrl>lineStyle1</styleUrl>
+          <LineString>
+            <tessellate>1</tessellate>
+            <coordinates>
+          <#list outline as point>
+		${point.longitude?c},${point.latitude?c}
+      	   </#list> <#-- outline -->
+      	   ${outline[0].longitude?c},${outline[0].latitude?c}
+          </coordinates>
+          </LineString>
+        </Placemark>
   </Document>
 </kml>
