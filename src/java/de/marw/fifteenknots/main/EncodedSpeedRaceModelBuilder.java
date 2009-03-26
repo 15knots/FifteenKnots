@@ -27,8 +27,8 @@ import de.marw.fifteenknots.model.SpeedCruise;
 
 
 /**
- * Builder for a race model that contains [@link SpeedCruise}s and information
- * on boat's speeds for encoding spped as a colored line.
+ * Builder for a race model that contains {@link SpeedCruise}s and information
+ * on boat's speeds for encoding of speed as a colored line.
  *
  * @author Martin Weber
  */
