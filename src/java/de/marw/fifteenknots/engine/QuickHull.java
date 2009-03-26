@@ -22,7 +22,7 @@ public class QuickHull {
 
   /**
    * Calculates the convex hull of a set of points using the QuickHull
-   * algorithm.
+   * algorithm. Convenience method.
    */
   public static List<Position2D> quickHullOfTrack( final List<TrackEvent> track) {
     final List<Position2D> pts= new ArrayList<Position2D>( track.size());
