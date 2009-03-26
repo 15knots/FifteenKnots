@@ -16,7 +16,7 @@ import javax.swing.event.EventListenerList;
  * A parser for NMEA 0183 sentences that sends events when certain data are
  * detected. The parser is able to decode the following NMEA sentence types:
  * GPRMC, GPGSA and GPGSV.
- * 
+ *
  * @author Martin Weber
  */
 public class NmeaSentenceParser
@@ -87,7 +87,7 @@ public class NmeaSentenceParser
 
   /**
    * Processes information from the GPS receiver
-   * 
+   *
    * @param sentence
    * @return <code>true</code> if the sentence was recognized, otherwise
    *         <code>false</code>.
@@ -126,7 +126,7 @@ public class NmeaSentenceParser
 
   /**
    * Interprets a $GPRMC message
-   * 
+   *
    * @param sentence
    *        the NMEA line divided into words
    * @return <code>true</code> if the sentence was recognized, otherwise
@@ -177,7 +177,7 @@ public class NmeaSentenceParser
       // Extract latitude and longitude
       double latitude= parseLatitude( words[3], words[4]);
       double longitude= parseLongitude( words[5], words[6]);
-      Position2D pos= new Position2D( latitude, longitude);
+      Position2D pos= new Position2D( longitude, latitude);
       // notify listener
       firePositionChanged( pos);
     }
@@ -231,7 +231,7 @@ public class NmeaSentenceParser
       // Extract latitude and longitude
       double latitude= parseLatitude( words[2], words[3]);
       double longitude= parseLongitude( words[4], words[5]);
-      Position2D pos= new Position2D( latitude, longitude);
+      Position2D pos= new Position2D( longitude, latitude);
       // notify listener
       firePositionChanged( pos);
     }
@@ -367,7 +367,7 @@ public class NmeaSentenceParser
 
   /**
    * Calculates the checksum for a sentence
-   * 
+   *
    * @param sentence
    * @return the checksum as a String containing two hexadecimal characters
    */
@@ -406,7 +406,7 @@ public class NmeaSentenceParser
   /**
    * Notifies all listeners that have registered interest for notification on
    * this event type.
-   * 
+   *
    * @param bearing
    */
   private void fireBearingChanged( float bearing)
@@ -429,7 +429,7 @@ public class NmeaSentenceParser
   /**
    * Notifies all listeners that have registered interest for notification on
    * this event type.
-   * 
+   *
    * @param speed
    */
   private void fireSpeedChanged( float speed)
@@ -452,7 +452,7 @@ public class NmeaSentenceParser
   /**
    * Notifies all listeners that have registered interest for notification on
    * this event type.
-   * 
+   *
    * @param pos
    */
   private void firePositionChanged( Position2D pos)
@@ -475,7 +475,7 @@ public class NmeaSentenceParser
   /**
    * Notifies all listeners that have registered interest for notification on
    * this event type.
-   * 
+   *
    * @param fix
    */
   private void fireFixChanged( Boolean fix)
@@ -500,7 +500,7 @@ public class NmeaSentenceParser
   /**
    * Notifies all listeners that have registered interest for notification on
    * this event type.
-   * 
+   *
    * @param time
    */
   private void fireTimeChanged( long time)
@@ -523,7 +523,7 @@ public class NmeaSentenceParser
   /**
    * Notifies all listeners that have registered interest for notification on
    * this event type.
-   * 
+   *
    * @param date
    */
   private void fireDateChanged( long date)

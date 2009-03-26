@@ -7,7 +7,7 @@ package de.marw.fifteenknots.nmeareader;
 
 /**
  * A two dimensional position on earth, contains no altitude.
- * 
+ *
  * @author Martin Weber
  */
 public class Position2D
@@ -24,14 +24,15 @@ public class Position2D
   private double longitude;
 
   /**
-   * @param latitude
-   *        latitude in degrees, where positive values denote the northern
-   *        hemisphere.
    * @param longitude
    *        longitude in degrees, where positive values denote the eastern
    *        hemisphere.
+   * @param latitude
+   *        latitude in degrees, where positive values denote the northern
+   *        hemisphere.
    */
-  public Position2D( double latitude, double longitude)
+  // TODO Parameter tausche, damit es einem Punt x,y ähnlicher wird
+  public Position2D( double longitude, double latitude)
   {
     this.latitude= latitude;
     this.longitude= longitude;
