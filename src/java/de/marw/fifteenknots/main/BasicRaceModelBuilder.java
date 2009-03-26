@@ -20,6 +20,7 @@ import de.marw.fifteenknots.engine.BasicRMFactory;
 import de.marw.fifteenknots.engine.CruiseGenerator;
 import de.marw.fifteenknots.engine.RaceModelFactory;
 import de.marw.fifteenknots.engine.ThreadPoolExecutorService;
+import de.marw.fifteenknots.model.BasicCruise;
 import de.marw.fifteenknots.model.BasicRaceModel;
 import de.marw.fifteenknots.model.Boat;
 import de.marw.fifteenknots.model.Cruise;
@@ -27,7 +28,7 @@ import de.marw.fifteenknots.model.RaceModel;
 
 
 /**
- * Builder for a basic race model that contains just [@link BasicCruise}s.
+ * Builder for a basic race model that contains just {@link BasicCruise}s.
  *
  * @author Martin Weber
  */
