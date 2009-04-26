@@ -52,12 +52,12 @@ public class QuickHull {
     double maxX= Double.MIN_VALUE;
     for (int i= 0; i < numPoints; i++) {
       final Position2D point= points.get( i);
-      if (point.getLatitude() < minX) {
-	minX= point.getLatitude();
+      if (point.getLongitude() < minX) {
+	minX= point.getLongitude();
 	minPointIdx= i;
       }
-      if (point.getLatitude() > maxX) {
-	maxX= point.getLatitude();
+      if (point.getLongitude() > maxX) {
+	maxX= point.getLongitude();
 	maxPointIdx= i;
       }
     }
