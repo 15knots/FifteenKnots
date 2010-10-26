@@ -9,6 +9,9 @@ package de.marw.fifteenknots.main;
 class OptionValidationException extends Exception
 {
 
+  /**  */
+  private static final long serialVersionUID = -5375451039185285921L;
+
   /**
    * @param message
    * @param cause
