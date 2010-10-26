@@ -12,12 +12,9 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import de.marw.fifteenknots.engine.IProcessor;
-import de.marw.fifteenknots.engine.MBBCalculator;
-import de.marw.fifteenknots.engine.QuickHull;
 import de.marw.fifteenknots.model.RaceModel;
 import de.marw.fifteenknots.nmeareader.Position2D;
 import de.marw.fifteenknots.render.kml.ARGBToABRGMethod;
@@ -70,15 +67,13 @@ class KMLProcessor implements IProcessor {
       new EncodedSpeedRaceModelBuilder( options, colorCount);
 
     RaceModel raceModel= builder.buildModel();
-    // compute convex hull
-    List<Position2D> hull=
-      QuickHull.quickHullOfTrack( raceModel.getCruises().get( 0)
-	.getTrackpoints());
-    MBBCalculator.mbb( raceModel.getCruises().get( 0).getTrackpoints());
     // render the output...
     Map<String, Object> model= new HashMap<String, Object>();
     model.put( "race", raceModel);
-    model.put( "outline", hull);
+    if (true) { // testweise MBB anzeigen
+      Position2D[] box= SWFProcessor.getMinimumBoundingBox( raceModel);
+      model.put( "outline", box);
+    }
     // add conversion method to be invoked by Freemarker
     model.put( "millisToDate", new MillisToDateMethod());
     model.put( "toABGRhex", new ARGBToABRGMethod());
