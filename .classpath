@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="mediancut/|de/marw/fifteenknots/engine/ProcessorBuilder.java" kind="src" path="src/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-1.5.0-sun"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="libs-shared/freemarker.jar"/>
 	<classpathentry kind="lib" path="libs-shared/transform.jar" sourcepath="/home/weber/Downloads/transform-java-2.3.1.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:file:/home/weber/Downloads/transform-java-2.3.1.zip!/transform-java-2.3.1/doc/datasheets"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs-shared/translate.jar" sourcepath="/home/weber/Downloads/translate-java-2.0.5.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/home/weber/Downloads/translate-java-2.0.5.zip!/doc/datasheets"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs-shared/swingx-ws-2009_01_04.jar" sourcepath="/home/weber/Downloads/swingx-ws-2009_01_04-src.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/home/weber/Downloads/swingx-ws-2009_01_04-bin.zip!/swingx-ws-2009_01_04-bin/docs/javadoc"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs-shared/worldwind.jar" sourcepath="/home/weber/Downloads/worldwind-release.0.5.0.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/home/weber/Downloads/worldwind-release.0.5.0.zip!/doc"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
