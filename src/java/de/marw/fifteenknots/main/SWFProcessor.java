@@ -8,14 +8,29 @@ import java.awt.Font;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import com.flagstone.transform.*;
 import com.flagstone.transform.util.FSShapeConstructor;
 import com.flagstone.transform.util.FSTextConstructor;
 
 import de.marw.fifteenknots.engine.IProcessor;
+import de.marw.fifteenknots.engine.MBBCalculator;
+import de.marw.fifteenknots.engine.QuickHull;
+import de.marw.fifteenknots.engine.QuickHullCalculator;
 import de.marw.fifteenknots.engine.RaceModelBuilder;
+import de.marw.fifteenknots.engine.SpeedColorEncoder;
+import de.marw.fifteenknots.engine.ThreadPoolExecutorService;
+import de.marw.fifteenknots.model.Cruise;
 import de.marw.fifteenknots.model.RaceModel;
+import de.marw.fifteenknots.nmeareader.Position2D;
 
 
 /**
@@ -54,11 +69,91 @@ class SWFProcessor implements IProcessor {
   public void process() throws FileNotFoundException, IOException {
     RaceModelBuilder builder= new BasicRaceModelBuilder( options);
 
-    RaceModel raceModel= null;// builder.buildModel();
+    RaceModel raceModel= builder.buildModel();
+    getMinimumBoundingBox( raceModel);
+
     // render the output...
 // renderer.process( model);
     FSMovie movie= createMovie( raceModel);
     movie.encodeToFile( outputFileName);
+  }
+
+  /**
+   * Computes the minimum bounding box of the race.
+   *
+   * @param raceModel
+   *        the race of the boats.
+   * @return an array containing the corner positions of the minimum bounding box
+   */
+  public static Position2D[] getMinimumBoundingBox( RaceModel raceModel) {
+    final List< ? extends Cruise> cruises= raceModel.getCruises();
+    List<List<Position2D>> hulls= getConvexHulls( cruises);
+    // merge convex hulls..
+    List<Position2D> points= new ArrayList<Position2D>( 10 * cruises.size());
+    for (List<Position2D> hull : hulls) {
+      for (Position2D point : hull) {
+	points.add( point);
+      }
+    }
+   return MBBCalculator.mbbSpherical( points);
+  }
+
+  /**
+   * Gets all convex hulls of the cruises.
+   *
+   * @return A list of convex hulls, one for each cruise.
+   */
+  private static List<List<Position2D>> getConvexHulls( List< ? extends Cruise> cruises) {
+    final int size= cruises.size();
+    final List<List<Position2D>> hulls=
+      new ArrayList<List<Position2D>>( cruises.size());
+    if (size == 1) {
+      // optimization for a single boat
+      hulls.add( QuickHull.quickHullOfTrack( cruises.get( 0).getTrackpoints()));
+      return hulls;
+    }
+    else if (size == 0) {
+      return hulls;
+    }
+
+    // create workers and returned list..
+    ArrayList<Callable<List<Position2D>>> workers=
+      new ArrayList<Callable<List<Position2D>>>( size);
+    for (Cruise boatOptions : cruises) {
+      workers.add( new QuickHullCalculator( boatOptions.getTrackpoints()));
+    }
+
+    // start workers and wait for all to finish
+    ExecutorService e= ThreadPoolExecutorService.getService();
+    try {
+      List<Future<List<Position2D>>> workerResults= e.invokeAll( workers);
+      for (Future<List<Position2D>> result : workerResults) {
+	try {
+	  // throws the exception if one occurred during the invocation
+	  List<Position2D> hull= result.get( 0, TimeUnit.MILLISECONDS);
+	  hulls.add( hull);
+	}
+	catch (ExecutionException ex) {
+	  // raise exception that occured in worker
+	  final Throwable cause= ex.getCause();
+	  if (cause instanceof RuntimeException) {
+	    throw (RuntimeException) cause;
+	  }
+	  else if (cause instanceof Error) {
+	    throw (Error) cause;
+	  }
+	}
+	catch (CancellationException ignore) {
+	}
+	catch (TimeoutException ignore) {
+	}
+      }
+    }
+    catch (InterruptedException ignore) {
+      // ignore and finish
+    }
+    return hulls;
+
   }
 
   private FSMovie createMovie( RaceModel raceModel) {
@@ -88,13 +183,15 @@ class SWFProcessor implements IProcessor {
 // movie.add( new FSShowFrame());
     ArrayList<FSLayer> layers= new ArrayList<FSLayer>();
     // one layer per boat...
-    final int BOATS= 2;
+    final int BOATS= 30;
+
+    SpeedColorEncoder colorEncoder= new SpeedColorEncoder( BOATS, 0.0f, BOATS);
     for (int boat= 0; boat < BOATS; boat++) {
       FSLayer layer= new FSLayer( boat + 1);
       layers.add( layer);
       FSDefineObject boatShape=
-	createBoatShape( movie.newIdentifier(), boat == 0
-	  ? Color.RED : Color.GREEN);
+	createBoatShape( movie.newIdentifier(), colorEncoder.encodeSpeed( Float
+	  .valueOf( boat)));
       FSDefineShape3 text=
 	constructor.defineShape( movie.newIdentifier(), txt, fontSize,
 	  FSColorTable.green());
@@ -113,7 +210,7 @@ class SWFProcessor implements IProcessor {
 	FSLayer layer= layers.get( boat);
 	FSCoordTransform transform= new FSCoordTransform();
 // transform.translate( f * 100, f * 100);
-	transform.translate( f*20+(boat + 1) * 600, (boat + 1) * 600);
+	transform.translate( f * 20 + (boat + 1) * 60, (boat + 1) * 80);
 	transform.rotate( f * 5.0 * (boat % 2 == 0
 	  ? 1 : -1));
 	layer.change( transform);
