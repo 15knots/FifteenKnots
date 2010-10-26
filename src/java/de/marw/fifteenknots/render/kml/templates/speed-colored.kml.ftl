@@ -6,27 +6,26 @@
     -->
     <!-- ${.template_name} -->
     <name>GPS device</name>
-    <!--
+    <open>1</open>
+<#--
     <Snippet maxLines="2">Created Sat Oct 11 22:23:37 2008
     </Snippet>
     <LookAt>
       <longitude>13.31113650000001</longitude>
       <latitude>52.51715049999999</latitude>
       <altitude>0</altitude>
-      <range>2389.426578274666</range>
       <tilt>0</tilt>
-      <heading>1.094449365560442e-13</heading>
       <altitudeMode>relativeToGround</altitudeMode>
+      <range>2389.426578274666</range>
+      <heading>306.45</heading>
     </LookAt>
-    -->
+-->
     <Style id="track_h">
       <IconStyle>
         <color>ffffaaaa</color>
         <scale>1.2</scale>
         <Icon>
-          <href>
-            http://maps.google.com/mapfiles/kml/shapes/open-diamond.png
-          </href>
+          <href>http://maps.google.com/mapfiles/kml/shapes/open-diamond.png</href>
         </Icon>
       </IconStyle>
     </Style>
@@ -34,9 +33,7 @@
       <IconStyle>
         <color>ffffaaaa</color>
         <Icon>
-          <href>
-            http://maps.google.com/mapfiles/kml/shapes/open-diamond.png
-          </href>
+          <href>http://maps.google.com/mapfiles/kml/shapes/open-diamond.png</href>
         </Icon>
       </IconStyle>
     </Style>
@@ -57,9 +54,11 @@
       <LineStyle>
         <color>${color}</color>
       </LineStyle>
+      <#--
       <ListStyle>
-        <color>${color}</color>
+        <bgColor>${color}</bgColor>
       </ListStyle>
+      -->
     </Style>
     </#list>
     
@@ -80,7 +79,7 @@
   	<screenXY y="10" x="${10+range_index*5}" yunits="pixels" xunits="pixels"/>
   	<size y="25" x="4" xunits="pixels" yunits="pixels"/>
     </ScreenOverlay>
-</#list>
+    </#list>
     </Folder>
 
 <#if (race.cruises?size> 1)>
@@ -95,8 +94,10 @@
           <#list cruise.trackpoints as point>
           <Placemark>
             <name>${point_index}<#if point.speed??> [${point.speed} kts]</#if></name>
-            <Snippet maxLines="2"></Snippet>
+            <styleUrl>#track</styleUrl>
+<#--        <Snippet maxLines="2"></Snippet>
             <description></description>
+-->         <Point><coordinates>${point.position.longitude?c},${point.position.latitude?c}</coordinates></Point>
             <LookAt>
               <longitude>${point.position.longitude?c}</longitude>
               <latitude>${point.position.latitude?c}</latitude>
@@ -105,47 +106,42 @@
             <TimeStamp>
               <when>${millisToDate(point.date)?datetime?string("yyyy-MM-dd'T'HH:mm:ss'Z'")}</when>
             </TimeStamp>
-            <styleUrl>#track</styleUrl>
-            <Point>
-              <coordinates>${point.position.longitude?c},${point.position.latitude?c}</coordinates>
-            </Point>
           </Placemark>
           </#list> <#-- trackpoints -->
         </Folder>
         <Folder>
           <name>Cruise</name>
           <#list cruise.polyLines as line>
-        <Placemark>
-          <name>${line_index} (Sp ${line.colorIndex})</name>
-          <styleUrl>#speed_${line.colorIndex?c}</styleUrl>
-          <LineString>
-            <tessellate>1</tessellate>
-            <coordinates>
-          <#list line.segments as segment>
-		${segment.position.longitude?c},${segment.position.latitude?c}
-      </#list> <#-- segment -->
-          </coordinates>
-          </LineString>
-        </Placemark>
-      </#list> <#-- polylines -->
+          <Placemark>
+            <name>${line_index} (Sp ${line.colorIndex})</name>
+            <styleUrl>#speed_${line.colorIndex?c}</styleUrl>
+            <LineString>
+              <tessellate>1</tessellate>
+              <coordinates>
+<#list line.segments as segment>${segment.position.longitude?c},${segment.position.latitude?c}
+</#list> <#-- segment -->
+              </coordinates>
+            </LineString>
+          </Placemark>
+          </#list> <#-- polylines -->
         </Folder>
       </#list> <#-- cruises -->
 <#if (race.cruises?size> 1)>
       </Folder>
 </#if>
     </Folder>
+<#if outline??>    
       <Placemark>
       <name>Outline</name>
-          <styleUrl>lineStyle1</styleUrl>
-          <LineString>
-            <tessellate>1</tessellate>
-            <coordinates>
-          <#list outline as point>
-		${point.longitude?c},${point.latitude?c}
-      	   </#list> <#-- outline -->
-      	   ${outline[0].longitude?c},${outline[0].latitude?c}
-          </coordinates>
-          </LineString>
-        </Placemark>
+      <styleUrl>lineStyle1</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <coordinates>
+        <#list outline as point>${point.longitude?c},${point.latitude?c}
+        </#list>
+        </coordinates>
+      </LineString>
+      </Placemark>
+</#if>
   </Document>
 </kml>
