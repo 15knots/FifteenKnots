@@ -172,24 +172,24 @@ class SWFProcessor implements IProcessor {
 
   private Movie createMovie(RaceModel raceModel) {
     int height = 10000;
-    int width = height * 5 / 4;
+    int width = height * 16 / 9;
     int fontSize = 240;
 
-    int uid = 0;
+    int uid = 1;
 
     Movie movie = new Movie();
     final MovieHeader header = new MovieHeader();
-    header.setVersion(7);
     header.setFrameSize(new Bounds(0, 0, width, height));
-    header.setFrameRate(24.0f);
+    header.setFrameRate(25.0f);
     movie.add(header);
-    movie.add(new EnableDebugger2(""));
+    movie.add(new EnableDebugger2("15kts"));
 
     movie.add(new Background(WebPalette.DARK_BLUE.color()));
 
     ArrayList<Layer> layers = new ArrayList<Layer>();
     // one layer per boat...
-    final int BOATS = 30;
+    final int BOATS = 22;
+    ArrayList<ShapeTag> boatShapes = new ArrayList<ShapeTag>();
 
     SpeedColorEncoder colorEncoder = new SpeedColorEncoder(BOATS, 0.0f, BOATS);
     for (int boat = 0; boat < BOATS; boat++) {
@@ -198,47 +198,45 @@ class SWFProcessor implements IProcessor {
       ShapeTag boatShape = createBoatShape(uid++,
 	  colorEncoder.encodeSpeed(Float.valueOf(boat)));
       movie.add(boatShape);
+      boatShapes.add(boatShape);
     }
-    // place boat
-    for (int boat = 0; boat < 1; boat++) {
-      CoordTransform position = CoordTransform.translate(600, 600);
-      movie.add(new Place2().setType(PlaceType.NEW).setLayer(boat)
-	  .setTransform(position));
-//	    movie.add(ShowFrame.getInstance());
+    // place boats...
+    for (int boat = 0; boat < BOATS; boat++) {
+      final ShapeTag bs = boatShapes.get(boat);
+      CoordTransform position = CoordTransform.translate(600 + 90 * boat, 600);
+      movie.add(new Place2().setType(PlaceType.NEW).setLayer(boat + 1)
+	  .setIdentifier(bs.getIdentifier()).setTransform(position));
     }
     // move boats...
-    for (int f = 0; f < 73; f++) {
+    for (int f = 0; f < 25 * 10; f++) {
       for (int boat = 0; boat < BOATS; boat++) {
 	CoordTransform position = CoordTransform.translate(f * 20 + (boat + 1)
-	    * 60, (boat + 1) * 80);
-	CoordTransform orientation = CoordTransform.rotate(f * 5
+	    * 160, (boat + 1) * 180);
+	CoordTransform orientation = CoordTransform.rotate(45 + f * 5
 	    * (boat % 2 == 0 ? 1 : -1));
 	CoordTransform transform = new CoordTransform(CoordTransform.product(
 	    position.getMatrix(), orientation.getMatrix()));
+	final ShapeTag bs = boatShapes.get(boat);
 
-	movie.add(new Place2().setType(PlaceType.MODIFY).setLayer(boat)
-	    .setTransform(transform));
+	movie.add(new Place2().setType(PlaceType.MODIFY).setLayer(boat + 1)
+	    .setIdentifier(bs.getIdentifier()).setTransform(transform));
       }
       movie.add(ShowFrame.getInstance());
     }
 
-//    movie.add(Layer.merge(layers));
 //    {
 //      // Add STOP action
 //      ArrayList<Action> actions = new ArrayList<Action>();
 //      actions.add(Action.Stop());
 //      movie.add(new DoAction(actions));
 //    }
-    // frame where actions will be executed
-    movie.add(ShowFrame.getInstance());
+//    // frame where actions will be executed
+//    movie.add(ShowFrame.getInstance());
 
     return movie;
   }
 
   private ShapeTag createBoatShape(int identifier, java.awt.Color color) {
-
-// ArrayList<LineStyle> lineStyles= new ArrayList<LineStyle>();
-// ArrayList<FillStyle> fillStyles= new ArrayList<FillStyle>();
 
     /*
      * Define the outline...
@@ -260,11 +258,6 @@ class SWFProcessor implements IProcessor {
     path.line(width / 2, mast);
     path.line(start_x, start_y);
     path.close();
-    // draw cross
-// path.newPath();
-// path.move( start_x, start_y);
-// path.selectFillStyle( 0);
-// path.line( -start_x, start_y);
 
     DefineShape2 shape = path.defineShape(identifier);
     return shape;
