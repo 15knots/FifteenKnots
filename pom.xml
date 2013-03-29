@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.marw</groupId>
+    <artifactId>fifteenknots</artifactId>
+    <version>0.0.1</version>
+    <name>Fifteen Knots</name>
+    <description>NMEA data reader and rendering library</description>
+    <dependencies>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.14</version>
+        </dependency>
+        <dependency>
+            <groupId>com.flagstone</groupId>
+            <artifactId>transform</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <sourceDirectory>${project.basedir}/src/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/java</directory>
+                <includes>
+                    <include>**/render/kml/templates/*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+</project>
