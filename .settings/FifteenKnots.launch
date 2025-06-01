@@ -13,7 +13,7 @@
     <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="de.marw.fifteenknots.main.Main"/>
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="Fifteen Knots"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-t flash &#10;-o /home/15knots/Documents/tracks-processed/ATEST.swf&#10;/home/15knots/Documents/tracks/Come_Back-Schlusslicht-20081018.nmea"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-t kml -c 20&#10;-o /home/15knots/Documents/tracks-processed/Celle-20250601.kml&#10;/home/15knots/Documents/tracks/20250601_X_1.nmea"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Fifteen Knots"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
 </launchConfiguration>
