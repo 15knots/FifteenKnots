@@ -25,6 +25,7 @@ import de.marw.fifteenknots.model.BasicRaceModel;
 import de.marw.fifteenknots.model.Boat;
 import de.marw.fifteenknots.model.Cruise;
 import de.marw.fifteenknots.model.RaceModel;
+import de.marw.fifteenknots.model.SpeedUnitConverter;
 
 
 /**
@@ -62,10 +63,12 @@ class BasicRaceModelBuilder extends AbstractRaceModelBuilder {
    *         if no {@link #setModelFactory(RaceModelFactory) model factory} has
    *         been set.
    */
+  @Override
   public RaceModel buildModel() throws FileNotFoundException, IOException {
     // wait until all boats have produced their tracks...
     List<Cruise> cruises= gatherCruises( options.getBoats());
     BasicRaceModel model= (BasicRaceModel) getModelFactory().createRaceModel();
+    model.setSpeedConverter(new KmHSpeedUnitConverter());
     model.setCruises( cruises);
     return model;
   }
@@ -132,4 +135,29 @@ class BasicRaceModelBuilder extends AbstractRaceModelBuilder {
 
   }
 
+  public static class NoOpSpeedUnitConverter implements SpeedUnitConverter {
+
+    @Override
+    public String getUnitName() {
+      return "kts";
+    }
+
+    @Override
+    public float convert(float speed) {
+      return speed;
+    }
+  }
+
+  public static class KmHSpeedUnitConverter implements SpeedUnitConverter {
+
+    @Override
+    public String getUnitName() {
+      return "km/h";
+    }
+
+    @Override
+    public float convert(float speed) {
+      return speed * 1.8520042801877f;
+    }
+  }
 }

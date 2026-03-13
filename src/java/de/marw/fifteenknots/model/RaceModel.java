@@ -20,4 +20,8 @@ public interface RaceModel {
    */
   public List< ? extends Cruise> getCruises();
 
+  /**
+   * Gets the converter for the spped values.
+   */
+  public SpeedUnitConverter getSpeedConverter();
 }

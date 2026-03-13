@@ -69,11 +69,11 @@
     </Style>
 
     <Folder>
-    <name>Speed in knots</name>
+    <name>Speed ranges</name>
     <#-- legend for speed to color encoding -->
     <#list race.speedEncoding.ranges as range>
     <ScreenOverlay>
-      <name>${range.lowerLimit?string("0.##")} .. ${range.upperLimit?string("0.##")}</name>
+      <name>${toSpeed(range.lowerLimit)?string("0.##")} .. ${toSpeed(range.upperLimit)?string("0.##")} ${race.speedConverter.unitName}</name>
 	<color>${toABGRhex(range.color.RGB)}</color>
 	<overlayXY x="0" y="0" xunits="pixels" yunits="pixels"/>
   	<screenXY y="10" x="${10+range_index*5}" yunits="pixels" xunits="pixels"/>
@@ -93,7 +93,7 @@
           <name>Trackpoints</name>
           <#list cruise.trackpoints as point>
           <Placemark>
-            <name>${point_index}<#if point.speed??> [${point.speed} kts]</#if></name>
+            <name>${point_index}<#if point.speed??> [${toSpeed(point.speed)} ${race.speedConverter.unitName}]</#if></name>
             <styleUrl>#track</styleUrl>
 <#--        <Snippet maxLines="2"></Snippet>
             <description></description>

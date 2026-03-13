@@ -4,6 +4,7 @@
 package de.marw.fifteenknots.model;
 
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -14,9 +15,11 @@ import java.util.List;
 public class BasicRaceModel implements RaceModel {
 
   private List< ? extends Cruise> cruises;
+  private SpeedUnitConverter speedUnitConverter;
 
   public BasicRaceModel() {}
 
+  @Override
   public List< ? extends Cruise> getCruises() {
     return cruises;
   }
@@ -31,4 +34,12 @@ public class BasicRaceModel implements RaceModel {
     this.cruises= cruises;
   }
 
+  public void setSpeedConverter(SpeedUnitConverter speedUnitConverter) {
+    this.speedUnitConverter = Objects.requireNonNull( speedUnitConverter);
+  }
+
+  @Override
+  public SpeedUnitConverter getSpeedConverter() {
+    return speedUnitConverter;
+  }
 }

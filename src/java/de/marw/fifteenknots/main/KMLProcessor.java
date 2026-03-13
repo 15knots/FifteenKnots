@@ -19,6 +19,7 @@ import de.marw.fifteenknots.model.RaceModel;
 import de.marw.fifteenknots.nmeareader.Position2D;
 import de.marw.fifteenknots.render.kml.ARGBToABRGMethod;
 import de.marw.fifteenknots.render.kml.MillisToDateMethod;
+import de.marw.fifteenknots.render.kml.SpeedConversionMethod;
 import de.marw.fifteenknots.render.kml.TemplateRenderer;
 import freemarker.template.TemplateException;
 
@@ -62,6 +63,7 @@ class KMLProcessor implements IProcessor {
    *         if an I/O error occurs
    * @see de.marw.fifteenknots.engine.IProcessor#process()
    */
+  @Override
   public void process() throws FileNotFoundException, IOException {
     EncodedSpeedRaceModelBuilder builder=
       new EncodedSpeedRaceModelBuilder( options, colorCount);
@@ -77,6 +79,7 @@ class KMLProcessor implements IProcessor {
     // add conversion method to be invoked by Freemarker
     model.put( "millisToDate", new MillisToDateMethod());
     model.put( "toABGRhex", new ARGBToABRGMethod());
+    model.put( "toSpeed", new SpeedConversionMethod(raceModel.getSpeedConverter()));
 
     // create output writer for template engine...
     Writer writer;
