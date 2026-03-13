@@ -72,7 +72,7 @@ class KMLProcessor implements IProcessor {
     // render the output...
     Map<String, Object> model= new HashMap<String, Object>();
     model.put( "race", raceModel);
-    if (true) { // testweise MBB anzeigen
+    if (false) { // testweise MBB anzeigen
       Position2D[] box= SWFProcessor.getMinimumBoundingBox( raceModel);
       model.put( "outline", box);
     }
