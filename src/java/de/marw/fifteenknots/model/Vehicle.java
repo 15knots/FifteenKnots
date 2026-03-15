@@ -4,30 +4,30 @@
 package de.marw.fifteenknots.model;
 
 /**
- * Metadata of a boat.
+ * Metadata of a vehicle.
  * 
  * @author Martin Weber
  */
-public class Boat
+public class Vehicle
 {
   private final int index;
 
   private String name;
 
   /**
-   * Creates a new boat with the index
+   * Creates a new vehicle with the index
    * 
    * @param index
    */
-  public Boat( int index)
+  public Vehicle( int index)
   {
     this.index= index;
   }
 
   /**
-   * Gets the name of the boat.
+   * Gets the name of the vehicle.
    * 
-   * @return the boat name or {@code null}, if no name was specified.
+   * @return the vehicle name or {@code null}, if no name was specified.
    */
   public String getName()
   {
@@ -35,7 +35,7 @@ public class Boat
   }
 
   /**
-   * Sets the name of the boat.
+   * Sets the name of the vehicle.
    */
   public void setName( String name)
   {
@@ -43,7 +43,7 @@ public class Boat
   }
 
   /**
-   * Gets the index of this boat in the list of the boats that were specified on
+   * Gets the index of this vehicle in the list of the vehicles that were specified on
    * the commandline.
    * 
    * @return an int greater or equals tha zero.

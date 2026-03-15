@@ -6,8 +6,8 @@ package de.marw.fifteenknots.model;
 
 
 /**
- * A data model for the renderer that contains tracks for various boats and
- * information on boats' speeds for encoding tracks as a colored line.
+ * A data model for the renderer that contains tracks for various vehicles and
+ * information on vehicles' speeds for encoding tracks as a colored line.
  *
  * @author Martin Weber
  */

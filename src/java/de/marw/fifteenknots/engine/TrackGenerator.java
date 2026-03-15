@@ -28,7 +28,7 @@ import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 
 /**
- * Reads all input files for a {@code Boat}, extracts the the {@link TrackEvent
+ * Reads all input files for a {@code Vehicle}, extracts the the {@link TrackEvent
  * track points} and returns the {@link TrackEvent track points} from the
  * {@link #generate()} method.
  *

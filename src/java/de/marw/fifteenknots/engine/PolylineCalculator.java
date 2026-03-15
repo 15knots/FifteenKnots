@@ -13,7 +13,7 @@ import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 /**
  * Enriches a {@code SpeedCruise} object with the calulated {@link PolyLine}s.
- * The calculated lines encode the boat's speed as a color.
+ * The calculated lines encode the vehicle's speed as a color.
  *
  * @author Martin Weber
  */
@@ -24,7 +24,7 @@ public class PolylineCalculator implements Callable<Object> {
   private final SpeedColorEncoder colorEncoder;
 
   /**
-   * Constructs a new object with the specified boat and zero files to read in.
+   * Constructs a new object with the specified vehicle and zero files to read in.
    * No model factory will be set.
    *
    * @param cruise

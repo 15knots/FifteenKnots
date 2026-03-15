@@ -5,7 +5,7 @@ package de.marw.fifteenknots.engine;
 
 import java.util.List;
 
-import de.marw.fifteenknots.model.Boat;
+import de.marw.fifteenknots.model.Vehicle;
 import de.marw.fifteenknots.model.Cruise;
 import de.marw.fifteenknots.model.EncodedSpeedRaceModel;
 import de.marw.fifteenknots.model.RaceModel;
@@ -35,8 +35,8 @@ public class EncodedSpeedRMFactory implements RaceModelFactory {
    *
    * @return a {@link SpeedCruise} object.
    */
-  public Cruise createCruise( Boat boat, List<TrackEvent> track) {
-    return new SpeedCruise( boat, track);
+  public Cruise createCruise( Vehicle vehicle, List<TrackEvent> track) {
+    return new SpeedCruise( vehicle, track);
   }
 
 }

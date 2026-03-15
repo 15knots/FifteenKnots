@@ -100,7 +100,7 @@ class SWFProcessor implements IProcessor {
    * Computes the minimum bounding box of the race.
    *
    * @param raceModel
-   *        the race of the boats.
+   *        the race of the vehicles.
    * @return an array containing the corner positions of the minimum bounding
    *         box
    */
@@ -128,7 +128,7 @@ class SWFProcessor implements IProcessor {
     final List<List<Position2D>> hulls = new ArrayList<List<Position2D>>(
 	cruises.size());
     if (size == 1) {
-      // optimization for a single boat
+      // optimization for a single vehicle
       hulls.add(QuickHull.quickHullOfTrack(cruises.get(0).getTrackpoints()));
       return hulls;
     } else if (size == 0) {
@@ -138,8 +138,8 @@ class SWFProcessor implements IProcessor {
     // create workers and returned list..
     ArrayList<Callable<List<Position2D>>> workers = new ArrayList<Callable<List<Position2D>>>(
 	size);
-    for (Cruise boatOptions : cruises) {
-      workers.add(new QuickHullCalculator(boatOptions.getTrackpoints()));
+    for (Cruise vehicleOptions : cruises) {
+      workers.add(new QuickHullCalculator(vehicleOptions.getTrackpoints()));
     }
 
     // start workers and wait for all to finish
@@ -187,38 +187,38 @@ class SWFProcessor implements IProcessor {
     movie.add(new Background(WebPalette.DARK_BLUE.color()));
 
     ArrayList<Layer> layers = new ArrayList<Layer>();
-    // one layer per boat...
+    // one layer per vehicle...
     final int BOATS = 22;
-    ArrayList<ShapeTag> boatShapes = new ArrayList<ShapeTag>();
+    ArrayList<ShapeTag> vehicleShapes = new ArrayList<ShapeTag>();
 
     SpeedColorEncoder colorEncoder = new SpeedColorEncoder(BOATS, 0.0f, BOATS);
-    for (int boat = 0; boat < BOATS; boat++) {
-      Layer layer = new Layer(boat);
+    for (int vehicle = 0; vehicle < BOATS; vehicle++) {
+      Layer layer = new Layer(vehicle);
       layers.add(layer);
-      ShapeTag boatShape = createBoatShape(uid++,
-	  colorEncoder.encodeSpeed(Float.valueOf(boat)));
-      movie.add(boatShape);
-      boatShapes.add(boatShape);
+      ShapeTag vehicleShape = createVehicleShape(uid++,
+	  colorEncoder.encodeSpeed(Float.valueOf(vehicle)));
+      movie.add(vehicleShape);
+      vehicleShapes.add(vehicleShape);
     }
-    // place boats...
-    for (int boat = 0; boat < BOATS; boat++) {
-      final ShapeTag bs = boatShapes.get(boat);
-      CoordTransform position = CoordTransform.translate(600 + 90 * boat, 600);
-      movie.add(new Place2().setType(PlaceType.NEW).setLayer(boat + 1)
+    // place vehicles...
+    for (int vehicle = 0; vehicle < BOATS; vehicle++) {
+      final ShapeTag bs = vehicleShapes.get(vehicle);
+      CoordTransform position = CoordTransform.translate(600 + 90 * vehicle, 600);
+      movie.add(new Place2().setType(PlaceType.NEW).setLayer(vehicle + 1)
 	  .setIdentifier(bs.getIdentifier()).setTransform(position));
     }
-    // move boats...
+    // move vehicles...
     for (int f = 0; f < 25 * 10; f++) {
-      for (int boat = 0; boat < BOATS; boat++) {
-	CoordTransform position = CoordTransform.translate(f * 20 + (boat + 1)
-	    * 160, (boat + 1) * 180);
+      for (int vehicle = 0; vehicle < BOATS; vehicle++) {
+	CoordTransform position = CoordTransform.translate(f * 20 + (vehicle + 1)
+	    * 160, (vehicle + 1) * 180);
 	CoordTransform orientation = CoordTransform.rotate(45 + f * 5
-	    * (boat % 2 == 0 ? 1 : -1));
+	    * (vehicle % 2 == 0 ? 1 : -1));
 	CoordTransform transform = new CoordTransform(CoordTransform.product(
 	    position.getMatrix(), orientation.getMatrix()));
-	final ShapeTag bs = boatShapes.get(boat);
+	final ShapeTag bs = vehicleShapes.get(vehicle);
 
-	movie.add(new Place2().setType(PlaceType.MODIFY).setLayer(boat + 1)
+	movie.add(new Place2().setType(PlaceType.MODIFY).setLayer(vehicle + 1)
 	    .setIdentifier(bs.getIdentifier()).setTransform(transform));
       }
       movie.add(ShowFrame.getInstance());
@@ -236,7 +236,7 @@ class SWFProcessor implements IProcessor {
     return movie;
   }
 
-  private ShapeTag createBoatShape(int identifier, java.awt.Color color) {
+  private ShapeTag createVehicleShape(int identifier, java.awt.Color color) {
 
     /*
      * Define the outline...

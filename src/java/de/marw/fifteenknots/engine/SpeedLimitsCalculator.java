@@ -11,7 +11,7 @@ import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 /**
  * Enriches a {@code SpeedCruise} object with the calulated maximum and minimum
- * speed that the boat reached on its cruise.
+ * speed that the vehicle reached on its cruise.
  *
  * @author Martin Weber
  */
@@ -31,7 +31,7 @@ public class SpeedLimitsCalculator implements Callable<Object> {
   }
 
   /**
-   * Calulates the maximum and minimum speed that a boat reached on its cruise
+   * Calulates the maximum and minimum speed that a vehicle reached on its cruise
    * from the cruise's {@linkplain SpeedCruise#getTrackpoints() track points}
    * and stores these values in the cruise object..
    *

@@ -11,16 +11,16 @@ import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 
 /**
- * Represents the cruise of a boat.
+ * Represents the cruise of a vehicle.
  *
  * @author Martin Weber
  */
 public interface Cruise {
 
   /**
-   * Gets metadata about the boat.
+   * Gets metadata about the vehicle.
    */
-  public Boat getBoat();
+  public Vehicle getVehicle();
 
   /**
    * Gets all track points recorded for this cruise.

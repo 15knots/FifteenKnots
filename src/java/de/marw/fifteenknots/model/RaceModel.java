@@ -7,7 +7,7 @@ import java.util.List;
 
 
 /**
- * A data model for the renderer that contains tracks for various boats.<br>
+ * A data model for the renderer that contains tracks for various vehicles.<br>
  * All implemtations of zhis interface must provide a public no-argument
  * constructor.
  *
@@ -16,7 +16,7 @@ import java.util.List;
 public interface RaceModel {
 
   /**
-   * Gets the cruises of all boats in the race.
+   * Gets the cruises of all vehicles in the race.
    */
   public List< ? extends Cruise> getCruises();
 

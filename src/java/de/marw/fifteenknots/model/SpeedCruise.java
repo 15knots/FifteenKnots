@@ -10,7 +10,7 @@ import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 
 /**
- * A cruise of a boat with statistic data about the boat's speed and track
+ * A cruise of a vehicle with statistic data about the vehicle's speed and track
  * points {@link #getPolyLines() condensed by speed}. Each of the track points
  * in the list is guaranteed to hold information about
  * {@link TrackEvent#getSpeed() speed}, additionally to the basic
@@ -29,11 +29,11 @@ public class SpeedCruise extends BasicCruise
   private float speedMax;
 
   /**
-   * Constructs a cruise object with the specified boat and track points.
+   * Constructs a cruise object with the specified vehicle and track points.
    */
-  public SpeedCruise( Boat boat, List<TrackEvent> track)
+  public SpeedCruise( Vehicle vehicle, List<TrackEvent> track)
   {
-    super( boat, track);
+    super( vehicle, track);
   }
 
   /**
@@ -45,7 +45,7 @@ public class SpeedCruise extends BasicCruise
   }
 
   /**
-   * Gets the maximum speed that the boat reached on the cruise.
+   * Gets the maximum speed that the vehicle reached on the cruise.
    */
   public float getSpeedMax()
   {
@@ -53,10 +53,10 @@ public class SpeedCruise extends BasicCruise
   }
 
   /**
-   * Sets the maximum speed that the boat reached on the cruise.
+   * Sets the maximum speed that the vehicle reached on the cruise.
    *
    * @param speedMax
-   *        the maximum speed that the boat reached on the cruise.
+   *        the maximum speed that the vehicle reached on the cruise.
    */
   public void setSpeedMax( float speedMax)
   {
@@ -64,7 +64,7 @@ public class SpeedCruise extends BasicCruise
   }
 
   /**
-   * Gets the minimum speed that the boat reached on the cruise.
+   * Gets the minimum speed that the vehicle reached on the cruise.
    */
   public float getSpeedMin()
   {
@@ -72,10 +72,10 @@ public class SpeedCruise extends BasicCruise
   }
 
   /**
-   * Sets the minimum speed that the boat reached on the cruise.
+   * Sets the minimum speed that the vehicle reached on the cruise.
    *
    * @param speedMin
-   *        the minimum speed that the boat reached on the cruise.
+   *        the minimum speed that the vehicle reached on the cruise.
    */
   public void setSpeedMin( float speedMin)
   {

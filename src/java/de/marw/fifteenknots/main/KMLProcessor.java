@@ -44,7 +44,7 @@ class KMLProcessor implements IProcessor {
    *        the name of the output file or {@code null}, if output should go to
    *        stdout.
    * @param colorCount
-   *        the number of colors to use for visual boat speed coding.
+   *        the number of colors to use for visual vehicle speed coding.
    */
   public KMLProcessor( Options globalOptions, String outputFileName,
     int colorCount) {

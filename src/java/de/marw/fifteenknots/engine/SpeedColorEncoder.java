@@ -12,7 +12,7 @@ import de.marw.fifteenknots.model.SpeedRange;
 
 
 /**
- * Provides colors for boat speed values.
+ * Provides colors for vehicle speed values.
  *
  * @author Martin Weber
  */

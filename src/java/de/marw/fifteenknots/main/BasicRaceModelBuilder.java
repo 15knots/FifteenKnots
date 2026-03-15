@@ -22,7 +22,7 @@ import de.marw.fifteenknots.engine.RaceModelFactory;
 import de.marw.fifteenknots.engine.ThreadPoolExecutorService;
 import de.marw.fifteenknots.model.BasicCruise;
 import de.marw.fifteenknots.model.BasicRaceModel;
-import de.marw.fifteenknots.model.Boat;
+import de.marw.fifteenknots.model.Vehicle;
 import de.marw.fifteenknots.model.Cruise;
 import de.marw.fifteenknots.model.RaceModel;
 import de.marw.fifteenknots.model.SpeedUnitConverter;
@@ -65,8 +65,8 @@ class BasicRaceModelBuilder extends AbstractRaceModelBuilder {
    */
   @Override
   public RaceModel buildModel() throws FileNotFoundException, IOException {
-    // wait until all boats have produced their tracks...
-    List<Cruise> cruises= gatherCruises( options.getBoats());
+    // wait until all vehicles have produced their tracks...
+    List<Cruise> cruises= gatherCruises( options.getVehicles());
     BasicRaceModel model= (BasicRaceModel) getModelFactory().createRaceModel();
     model.setSpeedConverter(new KmHSpeedUnitConverter());
     model.setCruises( cruises);
@@ -74,28 +74,28 @@ class BasicRaceModelBuilder extends AbstractRaceModelBuilder {
   }
 
   /**
-   * Reads all input files and waits until all boats have produced their tracks.
+   * Reads all input files and waits until all vehicles have produced their tracks.
    *
-   * @return A list of {@link Cruise}s representing the boats, in the same
+   * @return A list of {@link Cruise}s representing the vehicles, in the same
    *         sequential order as produced by the iterator for the given
-   *         {@link BoatOptions} list.
+   *         {@link VehicleOptions} list.
    * @throws FileNotFoundException
    *         if one of the specified files cannot be found
    * @throws IOException
    *         If an I/O error occurs
    */
-  private List<Cruise> gatherCruises( List<BoatOptions> boats)
+  private List<Cruise> gatherCruises( List<VehicleOptions> vehicles)
     throws FileNotFoundException, IOException {
     ArrayList<Callable<Cruise>> workers=
-      new ArrayList<Callable<Cruise>>( boats.size());
-    List<Cruise> cruises= new ArrayList<Cruise>( boats.size());
+      new ArrayList<Callable<Cruise>>( vehicles.size());
+    List<Cruise> cruises= new ArrayList<Cruise>( vehicles.size());
 
     // create workers and returned list..
-    for (BoatOptions boatOptions : boats) {
-      Boat boat= new Boat( boatOptions.getNumber());
-      boat.setName( boatOptions.getName());
-      final CruiseGenerator cg= new CruiseGenerator( boat, getModelFactory());
-      cg.addFileNames( boatOptions.getFileNames());
+    for (VehicleOptions vehicleOptions : vehicles) {
+      Vehicle vehicle= new Vehicle( vehicleOptions.getNumber());
+      vehicle.setName( vehicleOptions.getName());
+      final CruiseGenerator cg= new CruiseGenerator( vehicle, getModelFactory());
+      cg.addFileNames( vehicleOptions.getFileNames());
       workers.add( cg);
     }
 

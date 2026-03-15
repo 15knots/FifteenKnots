@@ -13,28 +13,28 @@ import java.util.List;
 class Options
 {
 
-  private List<BoatOptions> boats= new ArrayList<BoatOptions>();
+  private List<VehicleOptions> vehicles= new ArrayList<VehicleOptions>();
 
-  public void addBoat( BoatOptions boat)
+  public void addVehicle( VehicleOptions vehicle)
   {
-    boats.add( boat);
-    boat.setNumber( boats.size());
+    vehicles.add( vehicle);
+    vehicle.setNumber( vehicles.size());
   }
 
   /**
-   * Gets the boats property.
+   * Gets the vehicles property.
    *
-   * @return the current boats property.
+   * @return the current vehicles property.
    */
-  public List<BoatOptions> getBoats()
+  public List<VehicleOptions> getVehicles()
   {
-    return this.boats;
+    return this.vehicles;
   }
 
   public void validate() throws OptionValidationException
   {
-    for (ValidatableOption boat : boats) {
-      boat.validate();
+    for (ValidatableOption vehicle : vehicles) {
+      vehicle.validate();
     }
   }
 

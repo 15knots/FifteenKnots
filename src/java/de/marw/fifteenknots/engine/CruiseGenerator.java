@@ -9,13 +9,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import de.marw.fifteenknots.model.Boat;
+import de.marw.fifteenknots.model.Vehicle;
 import de.marw.fifteenknots.model.Cruise;
 import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 
 /**
- * Reads all files for a {@code Boat}, extracts the the {@link TrackEvent track
+ * Reads all files for a {@code Vehicle}, extracts the the {@link TrackEvent track
  * points} and returns the {@link Cruise} object from the {@link #call()}
  * method.
  *
@@ -23,28 +23,28 @@ import de.marw.fifteenknots.nmeareader.TrackEvent;
  */
 public class CruiseGenerator implements Callable<Cruise> {
 
-  private final Boat boat;
+  private final Vehicle vehicle;
 
   private final TrackGenerator trackGenerator;
 
   private RaceModelFactory modelFactory;
 
   /**
-   * Constructs a new object with the specified boat and zero files to read in.
+   * Constructs a new object with the specified vehicle and zero files to read in.
    * No model factory will be set.
    *
-   * @param boat
-   *        the boat for which the cruise will be generated.
+   * @param vehicle
+   *        the vehicle for which the cruise will be generated.
    * @param modelFactory
    *        the model factory used to create race model objects.
    * @see #setModelFactory(RaceModelFactory)
    * @see #addFileName(String)
    */
-  public CruiseGenerator( Boat boat, RaceModelFactory modelFactory) {
-    if (boat == null) {
-      throw new NullPointerException( "boat");
+  public CruiseGenerator( Vehicle vehicle, RaceModelFactory modelFactory) {
+    if (vehicle == null) {
+      throw new NullPointerException( "vehicle");
     }
-    this.boat= boat;
+    this.vehicle= vehicle;
     this.modelFactory= modelFactory;
     this.trackGenerator= new TrackGenerator();
   }
@@ -99,6 +99,6 @@ public class CruiseGenerator implements Callable<Cruise> {
     if (modelFactory == null)
       throw new IllegalStateException( "model factory not set");
     final List<TrackEvent> track= trackGenerator.generate();
-    return modelFactory.createCruise( boat, track);
+    return modelFactory.createCruise( vehicle, track);
   }
 }

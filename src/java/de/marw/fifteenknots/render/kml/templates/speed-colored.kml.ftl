@@ -84,11 +84,11 @@
 
 <#if (race.cruises?size> 1)>
     <Folder>
-      <name>Boats</name>
+      <name>Vehicles</name>
 </#if>
       <#list race.cruises as cruise>
       <Folder>
-        <name><#if cruise.boat.name??>${cruise.boat.name}<#else>Boat #${cruise.boat.index}</#if></name>
+        <name><#if cruise.vehicle.name??>${cruise.vehicle.name}<#else>Vehicle #${cruise.vehicle.index}</#if></name>
         <Folder>
           <name>Trackpoints</name>
           <#list cruise.trackpoints as point>

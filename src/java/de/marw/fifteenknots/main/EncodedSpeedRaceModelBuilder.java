@@ -28,7 +28,7 @@ import de.marw.fifteenknots.model.SpeedCruise;
 
 /**
  * Builder for a race model that contains {@link SpeedCruise}s and information
- * on boat's speeds for encoding of speed as a colored line.
+ * on vehicle's speeds for encoding of speed as a colored line.
  *
  * @author Martin Weber
  */
@@ -40,7 +40,7 @@ class EncodedSpeedRaceModelBuilder extends BasicRaceModelBuilder {
    * @param options
    *        parsed global commandline options
    * @param colorCount
-   *        the number of colors to use for visual boat speed coding.
+   *        the number of colors to use for visual vehicle speed coding.
    */
   public EncodedSpeedRaceModelBuilder( Options options, int colorCount) {
     super( options);
@@ -64,7 +64,7 @@ class EncodedSpeedRaceModelBuilder extends BasicRaceModelBuilder {
     calcSpeedLimits( cruises);
     SpeedColorEncoder sce= createColorEncoder( cruises);
 
-    // calculate Polylines of speed levels for all boats...
+    // calculate Polylines of speed levels for all vehicles...
     calcPolyLines( cruises, sce);
 
     model.setSpeedEncoding( sce.getSpeedEncoding());

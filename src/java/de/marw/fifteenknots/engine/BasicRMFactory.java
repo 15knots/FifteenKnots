@@ -7,7 +7,7 @@ import java.util.List;
 
 import de.marw.fifteenknots.model.BasicCruise;
 import de.marw.fifteenknots.model.BasicRaceModel;
-import de.marw.fifteenknots.model.Boat;
+import de.marw.fifteenknots.model.Vehicle;
 import de.marw.fifteenknots.model.Cruise;
 import de.marw.fifteenknots.model.RaceModel;
 import de.marw.fifteenknots.nmeareader.TrackEvent;
@@ -35,8 +35,8 @@ public class BasicRMFactory implements RaceModelFactory {
    *
    * @return a {@link BasicCruise} object.
    */
-  public Cruise createCruise( Boat boat, List<TrackEvent> track) {
-    return new BasicCruise( boat, track);
+  public Cruise createCruise( Vehicle vehicle, List<TrackEvent> track) {
+    return new BasicCruise( vehicle, track);
   }
 
 }

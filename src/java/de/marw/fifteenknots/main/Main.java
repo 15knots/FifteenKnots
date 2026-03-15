@@ -1,4 +1,3 @@
-// $Id$
 /*
  * Copyright 2008 by Martin Weber
  */
@@ -13,6 +12,8 @@ import de.marw.fifteenknots.engine.IProcessor;
 
 
 /**
+ * Main entry class for the vehicle race visualizer.
+ *
  * @author Martin Weber
  */
 public class Main {
@@ -27,11 +28,11 @@ public class Main {
   /**
    * Command line evaluation modes:
    * <ul>
-   * <li>all file name arguments get associated to a single anonymous boat</li>
-   * <li>option <code>-boat</code> starts association of options and file name
-   * aguments to a boat.</li>
+   * <li>all file name arguments get associated to a single anonymous vehicle</li>
+   * <li>option <code>-vehicle</code> starts association of options and file name
+   * aguments to a vehicle.</li>
    * <li>(optional) option <code>-XXX</code> associates each file to an
-   * anonymous boat</li>
+   * anonymous vehicle</li>
    * </ul>
    *
    * @param args
@@ -53,10 +54,10 @@ public class Main {
     }
 
     if (i < args.length) {
-      // remaining args are file names, associate these with an anonymous boat
-      BoatOptions boatOption= new BoatOptions();
-      i+= parseBoatOptions( args, i, options, boatOption);
-      options.addBoat( boatOption);
+      // remaining args are file names, associate these with an anonymous vehicle
+      VehicleOptions vehicleOption= new VehicleOptions();
+      i+= parseVehicleOptions( args, i, options, vehicleOption);
+      options.addVehicle( vehicleOption);
     }
     // validate options...
     if (kit == null) {
@@ -145,11 +146,11 @@ public class Main {
 	}
 
       }
-      else if (arg.equals( "-boat")) {
-	BoatOptions boatOption= new BoatOptions();
+      else if (arg.equals( "-vehicle")) {
+	VehicleOptions vehicleOption= new VehicleOptions();
 	consumed=
-	  1 + parseBoatOptions( args, firstArgIdx + 1, options, boatOption);
-	options.addBoat( boatOption);
+	  1 + parseVehicleOptions( args, firstArgIdx + 1, options, vehicleOption);
+	options.addVehicle( vehicleOption);
       }
       else {
 	String format= "unknown option -- {0}";
@@ -162,7 +163,7 @@ public class Main {
   }
 
   /**
-   * Parses the commandline arguments for a boat.
+   * Parses the commandline arguments for a vehicle.
    *
    * @param args
    *        command line arguments from main().
@@ -170,20 +171,20 @@ public class Main {
    *        index of the first argument to parse.
    * @param options
    *        commandline options already parsed.
-   * @param boatOption
+   * @param vehicleOption
    *        the parsing results.
    * @return the number of elements in args that were consumed.
    * @throws OptionValidationException
    *         if an invalid command line option was detected.
    */
-  private static int parseBoatOptions( String[] args, int firstArgIdx,
-    Options options, BoatOptions boatOption) throws OptionValidationException {
+  private static int parseVehicleOptions( String[] args, int firstArgIdx,
+    Options options, VehicleOptions vehicleOption) throws OptionValidationException {
 
     int i;
     for (i= firstArgIdx; i < args.length; i++) {
       final String arg= args[i];
       if (arg.equals( "-name")) {
-	boatOption.setName( getRequiredArg( args, firstArgIdx));
+	vehicleOption.setName( getRequiredArg( args, firstArgIdx));
 	i++;
       }
       else if (arg.startsWith( "-")) {
@@ -192,7 +193,7 @@ public class Main {
       }
       else {
 	// arg is an input file
-	boatOption.getFileNames().add( arg);
+	vehicleOption.getFileNames().add( arg);
       }
     }
     return i - firstArgIdx;
@@ -205,12 +206,12 @@ public class Main {
     String format=
       "Usage:"
 	+ "\n  {0} [-h] -t <type> [<type options>] <file> [<file>...]"
-	+ "\n  {0} [-h] -t <type> [<type options>] -boat <boat options> <file> [<file>...] [-boat ...]"
+	+ "\n  {0} [-h] -t <type> [<type options>] -vehicle <vehicle options> <file> [<file>...] [-vehicle ...]"
 	+ "\nOptions:" + "\n  -h -help:        print help and exit"
 	+ "\n  -t -type <type>: set output file type"
-	+ "\n  -boat:           all following arguments refer to a new boat"
-	+ "\nBoat options: [-name <text>]"
-	+ "\n  -name <text>:    sets boat name";
+	+ "\n  -vehicle:           all following arguments refer to a new vehicle"
+	+ "\nVehicle options: [-name <text>]"
+	+ "\n  -name <text>:    sets vehicle name";
     StringBuilder typeUsages= new StringBuilder();
     typeUsages.append( "\nOutput types:");
     for (OutputType type : OutputType.values()) {

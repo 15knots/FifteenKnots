@@ -82,7 +82,7 @@ class KMLCmdlineKit implements CmdlineKit {
   }
 
   /**
-   * Gets the number of colors to use for visual boat speed coding.
+   * Gets the number of colors to use for visual vehicle speed coding.
    *
    * @return a value grater than zero.
    */

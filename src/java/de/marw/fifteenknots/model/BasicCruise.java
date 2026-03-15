@@ -9,7 +9,7 @@ import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 
 /**
- * A cruise of a boat. Contains boat metadata and the list of track points. None
+ * A cruise of a vehicle. Contains vehicle metadata and the list of track points. None
  * of the track points in the list is guaranteed to hold information about
  * {@link TrackEvent#getSpeed() speed} or {@link TrackEvent#getBearing()
  * bearing}, only {@link TrackEvent#getDate() date} and
@@ -21,29 +21,29 @@ public class BasicCruise implements Cruise
 {
   private final List<TrackEvent> track;
 
-  private final Boat boat;
+  private final Vehicle vehicle;
 
   /**
-   * Constructs a cruise object with the specified boat and track points.
+   * Constructs a cruise object with the specified vehicle and track points.
    */
-  public BasicCruise( Boat boat, List<TrackEvent> track)
+  public BasicCruise( Vehicle vehicle, List<TrackEvent> track)
   {
     if (track == null) {
       throw new NullPointerException( "track");
     }
     this.track= track;
-    if (boat == null) {
-      throw new NullPointerException( "boat");
+    if (vehicle == null) {
+      throw new NullPointerException( "vehicle");
     }
-    this.boat= boat;
+    this.vehicle= vehicle;
   }
 
   /**
-   * Gets the metadata about the boat.
+   * Gets the metadata about the vehicle.
    */
-  public Boat getBoat()
+  public Vehicle getVehicle()
   {
-    return boat;
+    return vehicle;
   }
 
   /**

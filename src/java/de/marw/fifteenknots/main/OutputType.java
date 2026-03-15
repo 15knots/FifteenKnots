@@ -10,7 +10,7 @@ package de.marw.fifteenknots.main;
  */
 enum OutputType implements ParsableTypeOption
 {
-  /** Produce a file in KML format with boat speed encoded as the track's color. */
+  /** Produce a file in KML format with vehicle speed encoded as the track's color. */
   KML {
 
     public boolean matchesOption( String arg)
@@ -26,7 +26,7 @@ enum OutputType implements ParsableTypeOption
 
     public String getDescription()
     {
-      return "kml:\tKML format with boat speed encoded as the track's color";
+      return "kml:\tKML format with vehicle speed encoded as the track's color";
     }
 
     public String getUsage()
@@ -37,7 +37,7 @@ enum OutputType implements ParsableTypeOption
     }
   },
   /**
-   * Produce a file in the flash format with boat animation.
+   * Produce a file in the flash format with vehicle animation.
    */
   FLASH {
 
@@ -54,7 +54,7 @@ enum OutputType implements ParsableTypeOption
 
     public String getDescription()
     {
-      return "flash:\tflash format with boat animation";
+      return "flash:\tflash format with vehicle animation";
     }
 
     public String getUsage()

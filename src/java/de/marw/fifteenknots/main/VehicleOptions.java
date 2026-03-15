@@ -7,13 +7,13 @@ import java.util.List;
 
 
 /**
- * Parsed commandline options for a single boat.
+ * Parsed commandline options for a single vehicle.
  * 
  * @author Martin Weber
  */
-public class BoatOptions implements ValidatableOption
+public class VehicleOptions implements ValidatableOption
 {
-  /** the number of the boat by position on commandline */
+  /** the number of the vehicle by position on commandline */
   private int number;
 
   private String name;
@@ -31,9 +31,9 @@ public class BoatOptions implements ValidatableOption
   }
 
   /**
-   * Gets the name of the boat.
+   * Gets the name of the vehicle.
    * 
-   * @return the boat name or {@code null}, if no name was specified.
+   * @return the vehicle name or {@code null}, if no name was specified.
    */
   public String getName()
   {
@@ -53,7 +53,7 @@ public class BoatOptions implements ValidatableOption
   /**
    * Sets the number property.
    * 
-   * @see BoatOptions#number
+   * @see VehicleOptions#number
    */
   void setNumber( int number)
   {
@@ -63,7 +63,7 @@ public class BoatOptions implements ValidatableOption
   /**
    * Sets the name property.
    * 
-   * @see BoatOptions#name
+   * @see VehicleOptions#name
    */
   void setName( String name)
   {
@@ -76,7 +76,7 @@ public class BoatOptions implements ValidatableOption
   public void validate() throws OptionValidationException
   {
     if (fileNames.isEmpty()) {
-      String format= "No input fileNames given for boat number {0,number,integer}";
+      String format= "No input fileNames given for vehicle number {0,number,integer}";
       throw new OptionValidationException( MessageFormat
         .format( format, number));
     }
