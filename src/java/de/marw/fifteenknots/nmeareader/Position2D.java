@@ -24,15 +24,14 @@ public class Position2D
   private double longitude;
 
   /**
-   * @param longitude
-   *        longitude in degrees, where positive values denote the eastern
-   *        hemisphere.
    * @param latitude
    *        latitude in degrees, where positive values denote the northern
    *        hemisphere.
+   * @param longitude
+   *        longitude in degrees, where positive values denote the eastern
+   *        hemisphere.
    */
-  // TODO Parameter tausche, damit es einem Punt x,y ähnlicher wird
-  public Position2D( double longitude, double latitude)
+  public Position2D( double latitude, double longitude)
   {
     this.latitude= latitude;
     this.longitude= longitude;

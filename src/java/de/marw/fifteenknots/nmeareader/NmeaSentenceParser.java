@@ -169,7 +169,7 @@ public class NmeaSentenceParser {
       // Extract latitude and longitude
       double latitude = parseLatitude(words[3], words[4]);
       double longitude = parseLongitude(words[5], words[6]);
-      Position2D pos = new Position2D(longitude, latitude);
+      Position2D pos = new Position2D(latitude, longitude);
       // notify listener
       firePositionChanged(pos);
     }
@@ -220,7 +220,7 @@ public class NmeaSentenceParser {
       // Extract latitude and longitude
       double latitude = parseLatitude(words[2], words[3]);
       double longitude = parseLongitude(words[4], words[5]);
-      Position2D pos = new Position2D(longitude, latitude);
+      Position2D pos = new Position2D(latitude, longitude);
       // notify listener
       firePositionChanged(pos);
     }

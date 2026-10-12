@@ -37,7 +37,7 @@ public class TimedPosition extends Position2D
    */
   public TimedPosition( long date, double latitude, double longitude)
   {
-    super( longitude, latitude);
+    super( latitude, longitude);
     setDate( date);
   }
 

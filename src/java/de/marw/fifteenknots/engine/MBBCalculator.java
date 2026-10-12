@@ -295,13 +295,13 @@ public class MBBCalculator {
 // new Position2D( px, py),// startkennung
 // new Position2D( px - 0.001, py - 0.001), // startkennung
 // new Position2D( px + 0.001, py - 0.001), // startkennung
-	  new Position2D(px, py), // corner
-	  new Position2D((C2 * c3.y - C3 * c2.y) * idet,
-	      (c2.x * C3 - c3.x * C2) * idet),
-	  new Position2D((C3 * c4.y - C4 * c3.y) * idet,
-	      (c3.x * C4 - c4.x * C3) * idet),
-	  new Position2D((C4 * c1.y - C1 * c4.y) * idet,
-	      (c4.x * C1 - c1.x * C4) * idet) };
+	  new Position2D(py, px), // corner
+	  new Position2D((c2.x * C3 - c3.x * C2) * idet,
+	      (C2 * c3.y - C3 * c2.y) * idet),
+	  new Position2D((c3.x * C4 - c4.x * C3) * idet,
+	      (C3 * c4.y - C4 * c3.y) * idet),
+	  new Position2D((c4.x * C1 - c1.x * C4) * idet,
+	      (C4 * c1.y - C1 * c4.y) * idet) };
 
       return out;
     }
@@ -371,7 +371,7 @@ public class MBBCalculator {
 // System.out.println( "in  "+pt);
 // System.out.println("out "+invSphericalProjection( x, y, r, avg_lon_rad,
 	  // avg_lat_rad));
-	  points.add(new Position2D(x, y));
+	  points.add(new Position2D(y, x));
 	}
       }
 
@@ -445,7 +445,7 @@ public class MBBCalculator {
     double lon = centralLongitude
 	+ atan2(x * sin(c), p * cos(centralLatitude) * cos(c) - y
 	    * sin(centralLatitude) * sin(c));
-    Position2D position2D = new Position2D(toDegrees(lon), toDegrees(lat));
+    Position2D position2D = new Position2D(toDegrees(lat), toDegrees(lon));
     return position2D;
   }
 
