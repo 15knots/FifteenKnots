@@ -92,7 +92,7 @@ class BasicRaceModelBuilder extends AbstractRaceModelBuilder {
 
     // create workers and returned list..
     for (VehicleOptions vehicleOptions : vehicles) {
-      Vehicle vehicle= new Vehicle( vehicleOptions.getNumber());
+      Vehicle vehicle= new Vehicle( vehicleOptions.getNumber(), vehicleOptions.getFileNames());
       vehicle.setName( vehicleOptions.getName());
       final CruiseGenerator cg= new CruiseGenerator( vehicle, getModelFactory());
       cg.addFileNames( vehicleOptions.getFileNames());

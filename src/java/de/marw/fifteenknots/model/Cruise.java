@@ -1,4 +1,3 @@
-// $Id$
 /*
  * Copyright 2008 by Martin Weber
  */
@@ -28,4 +27,11 @@ public interface Cruise {
    * @return all track points ordered ascending by time.
    */
   public List<TrackEvent> getTrackpoints();
+
+  /**
+   * Gets the total length of the cruise, calculated from the track points.
+   *
+   * @return the total length of the cruise
+   */
+  public UnitLength getTotalLength();
 }

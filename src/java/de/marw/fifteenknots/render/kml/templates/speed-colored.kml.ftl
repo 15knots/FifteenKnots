@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2">
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
 <Document>
 <#--  <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://earth.google.com/kml/2.1   http://code.google.com/apis/kml/schema/kml21.xsd">
@@ -73,11 +73,11 @@
     <#-- legend for speed to color encoding -->
     <#list race.speedEncoding.ranges as range>
     <ScreenOverlay>
-      <name>${toSpeed(range.lowerLimit)?string("0.##")} .. ${toSpeed(range.upperLimit)?string("0.##")} ${race.speedConverter.unitName}</name>
-	<color>${toABGRhex(range.color.RGB)}</color>
-	<overlayXY x="0" y="0" xunits="pixels" yunits="pixels"/>
-  	<screenXY y="10" x="${10+range_index*5}" yunits="pixels" xunits="pixels"/>
-  	<size y="25" x="4" xunits="pixels" yunits="pixels"/>
+      <name>${toSpeed(range.lowerLimit)?string["0.##"]} .. ${toSpeed(range.upperLimit)?string["0.##"]} ${race.speedConverter.unitName}</name>
+        <color>${toABGRhex(range.color.RGB)}</color>
+        <overlayXY x="0" y="0" xunits="pixels" yunits="pixels"/>
+        <screenXY y="10" x="${10+range_index*5}" yunits="pixels" xunits="pixels"/>
+        <size y="25" x="4" xunits="pixels" yunits="pixels"/>
     </ScreenOverlay>
     </#list>
     </Folder>
@@ -91,6 +91,7 @@
         <name><#if cruise.vehicle.name??>${cruise.vehicle.name}<#else>Vehicle #${cruise.vehicle.index}</#if></name>
         <Folder>
           <name>Trackpoints</name>
+          <visibility>0</visibility>
           <#list cruise.trackpoints as point>
           <Placemark>
             <name>${point_index}<#if point.speed??> [${toSpeed(point.speed)} ${race.speedConverter.unitName}]</#if></name>
@@ -110,7 +111,8 @@
           </#list> <#-- trackpoints -->
         </Folder>
         <Folder>
-          <name>Cruise</name>
+          <name>Cruise ${cruise.totalLength.length?string["0.###"]} ${cruise.totalLength.unit}</name>
+          <description>Input files: ${cruise.vehicle.fileNames?sort?join(", ")}</description>
           <#list cruise.polyLines as line>
           <Placemark>
             <name>${line_index} (Sp ${line.colorIndex})</name>

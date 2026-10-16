@@ -5,6 +5,8 @@ package de.marw.fifteenknots.model;
 
 import java.util.List;
 
+import de.marw.fifteenknots.engine.SphericalUtil;
+import de.marw.fifteenknots.nmeareader.Position2D;
 import de.marw.fifteenknots.nmeareader.TrackEvent;
 
 
@@ -22,6 +24,8 @@ public class BasicCruise implements Cruise
   private final List<TrackEvent> track;
 
   private final Vehicle vehicle;
+
+  private UnitLength cachedLength;
 
   /**
    * Constructs a cruise object with the specified vehicle and track points.
@@ -41,6 +45,7 @@ public class BasicCruise implements Cruise
   /**
    * Gets the metadata about the vehicle.
    */
+  @Override
   public Vehicle getVehicle()
   {
     return vehicle;
@@ -51,9 +56,20 @@ public class BasicCruise implements Cruise
    *
    * @return all track points ordered ascending by time.
    */
+  @Override
   public List<TrackEvent> getTrackpoints()
   {
     return track;
   }
 
+  @Override
+  public UnitLength getTotalLength() {
+    if (cachedLength == null) {
+      List<Position2D> posns = track.stream().map(TrackEvent::getPosition)
+          .toList();
+      double length = SphericalUtil.computeLength(posns);
+      cachedLength = new UnitLength(length / 1000, "km");
+    }
+    return cachedLength;
+  }
 }
