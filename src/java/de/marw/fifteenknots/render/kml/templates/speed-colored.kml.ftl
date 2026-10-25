@@ -91,10 +91,10 @@
         <name><#if cruise.vehicle.name??>${cruise.vehicle.name}<#else>Vehicle #${cruise.vehicle.index}</#if></name>
         <Folder>
           <name>Trackpoints</name>
-          <visibility>0</visibility>
           <#list cruise.trackpoints as point>
           <Placemark>
             <name>${point_index}<#if point.speed??> [${toSpeed(point.speed)} ${race.speedConverter.unitName}]</#if></name>
+            <visibility>0</visibility>
             <styleUrl>#track</styleUrl>
 <#--        <Snippet maxLines="2"></Snippet>
             <description></description>
